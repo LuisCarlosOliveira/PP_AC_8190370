@@ -1,8 +1,11 @@
 /*
  * @file: MyTask.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
- * @date:
- * @brief: MyTask is a concrete implementation of the Task interface
+ * @date
+ * @brief: This file contains the implementation of the MyTask class.
+ * MyTask is a concrete implementation of the Task interface.
+ * It represents a Task of a project.
+ * 
  */
 package my.ma02_resources.project;
 
@@ -42,41 +45,82 @@ public class MyTask implements Task {
         this.numberOfSubmissions = 0;
     }
 
+    /**
+     * Getter method for starting date
+     *
+     * @return the starting date
+     */
     @Override
     public LocalDate getStart() {
         return this.start;
     }
 
+    /**
+     * Getter method for ending date
+     *
+     * @return the ending date
+     */
     @Override
     public LocalDate getEnd() {
         return this.end;
     }
 
+    /**
+     * Getter method for Task duration 
+     *
+     * @return the duration 
+     */
     @Override
     public int getDuration() {
         return this.duration;
     }
 
+    /**
+     * Getter method for title
+     *
+     * @return the title 
+     */
     @Override
     public String getTitle() {
         return this.title;
     }
 
+    /**
+     * Getter method for description
+     *
+     * @return the description 
+     */
     @Override
     public String getDescription() {
         return this.description;
     }
 
+    /**
+     * Getter method for the submissions of the task
+     *
+     * @return the the submissions of the task
+     */
     @Override
     public Submission[] getSubmissions() {
         return this.submissions;
     }
 
+    /**
+     * Getter method for the number of Submissions
+     *
+     * @return the the number of Submissions
+     */
     @Override
     public int getNumberOfSubmissions() {
         return this.numberOfSubmissions;
     }
 
+    /**
+     * Method to Add a submission to the task. If the submissions array is full, 
+     * expand it by a factor of 2.
+     * @param submission the submission to add
+     * @throws IllegalArgumentException If the submission is null
+     */
     @Override
     public void addSubmission(Submission submission) {
         if (submission == null) {
@@ -93,6 +137,11 @@ public class MyTask implements Task {
         
     }
 
+    /**
+     * Method to Extend the deadline of the task by the given number of days.
+     * @param i the number of days 
+     * @throws IllegalArgumentException  if the number of days is negative
+     */
     @Override
     public void extendDeadline(int i) {
         if (i < 0) {
@@ -103,16 +152,25 @@ public class MyTask implements Task {
         this.end = this.end.plusDays(i);
     }
 
-    /*
-    0 (Zero) if both the date-times represent the same time instance of the day. 
-    Positive integer if given date-times is later than the otherDate. Negative 
-    integer if given date-times is earlier than the otherDate
+    /**
+     * Compares two tasks by their start date.
+     * @param task the task to be compared with the current task 
+     * @return     a negative integer, zero, or a positive integer as this task 
+     * is less than, equal to, or greater than the specified task.
+     * 
     */
     @Override
     public int compareTo(Task task) {
         return this.start.compareTo(task.getStart());
     }
     
+    /**
+     * This is an implementation of the equals() method in Java that checks if 
+     * two TaskImpl objects are equal based on their title attribute.
+     *
+     * @param obj  The object to be compared with the current object..
+     * @return true if the objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
