@@ -1,8 +1,11 @@
 /*
- * @file: 
+ * @file: MyEdition.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief
+ * @brief: This file contains the implementation of the Edition class.
+ * MyEdition is a concrete implementation of the Edition interface.
+ * It represents an Edition of a Challenge Based Learning .
+ * 
  */
 package my.ma02_resources.project;
 
@@ -34,6 +37,13 @@ public class MyEdition implements Edition {
     private int numberOfProjects;
     private final static int SIZE = 10;
 
+    
+    /**
+     * Constructs a MyEdition object with the specified Edition information
+     * @param name       Edition name
+     * @param start Edition starting date
+     * @param projectTemplate       project Template
+     */
     public MyEdition(String name, LocalDate start, String projectTemplate) {
         if (name == null || name.isEmpty() || start == null
                 || start.isBefore(LocalDate.now()) || projectTemplate == null
@@ -49,26 +59,51 @@ public class MyEdition implements Edition {
         this.numberOfProjects = 0;
     }
 
+    /**
+     * Getter method for edition name
+     *
+     * @return the edition name
+     */
     @Override
     public String getName() {
         return this.name;
     }
 
+    /**
+     * Getter method for edition starting date
+     *
+     * @return the edition starting date
+     */
     @Override
     public LocalDate getStart() {
         return this.start;
     }
 
+    /**
+     * Getter method for edition getProjectTemplate
+     *
+     * @return the edition getProjectTemplate
+     */
     @Override
     public String getProjectTemplate() {
         return this.projectTemplate;
     }
 
+    /**
+     * Getter method for edition status
+     *
+     * @return the edition status
+     */
     @Override
     public Status getStatus() {
         return this.status;
     }
 
+    /**
+     * Getter method for edition status
+     *
+     * @return the edition status
+     */
     @Override
     public void setStatus(Status status) {
         if (status == null) {

@@ -3,7 +3,7 @@
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
  * @brief: This file contains the implementation of the Project class.
- * MyProject is a concrete implementation of the Task interface.
+ * MyProject is a concrete implementation of the Project interface.
  * It represents a Project of an Edition.
  * 
  */

@@ -13,7 +13,6 @@ import ma02_resources.project.exceptions.IllegalNumberOfParticipantType;
 import ma02_resources.project.exceptions.IllegalNumberOfTasks;
 import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
-import management.NOTmyEdition;
 import my.cbl.participants.MyContact;
 import my.cbl.participants.MyFacilitator;
 import my.cbl.participants.MyInstituition;

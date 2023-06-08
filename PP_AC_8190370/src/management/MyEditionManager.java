@@ -8,12 +8,16 @@ package management;
 
 import java.io.IOException;
 import java.text.ParseException;
-import ma02_resources.participants.Student;
+import ma02_resources.participants.Participant;
 import ma02_resources.project.Edition;
 import ma02_resources.project.Project;
 import ma02_resources.project.Status;
 import ma02_resources.project.Submission;
 import ma02_resources.project.Task;
+import ma02_resources.project.exceptions.IllegalNumberOfParticipantType;
+import ma02_resources.project.exceptions.IllegalNumberOfTasks;
+import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
+import ma02_resources.project.exceptions.TaskAlreadyInProject;
 import myInterfaces.EditionManager;
 
 /**
@@ -33,6 +37,38 @@ public class MyEditionManager implements EditionManager {
         this.activeEditionIndex = -1;
     }
 
+    /**
+     * Checks if a string is valid (not null and not empty).
+     * @param str The string to check.
+     * @param errorMessage The error message to include in the exception if the string is not valid.
+     * @throws IllegalArgumentException If str is null or empty.
+     */
+    private void checkStringValidity(String str, String errorMessage) {
+        if (str == null || str.isEmpty()) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+    }
+
+     /**
+     * Resizes the editions array when it becomes full.
+     * Doubles the size of the array to accommodate more editions.
+     */
+    private void resizeEditionsArray() {
+        Edition[] temp = new Edition[this.editions.length * 2];
+        for (int i = 0; i < this.numberOfEditions; i++) {
+            temp[i] = this.editions[i];
+        }
+
+        this.editions = temp;
+    }
+
+    /**
+     * Adds an edition to the manager.
+     *
+     * @param edition The edition to add.
+     * @throws IllegalArgumentException If the edition is null or if there's
+     * already an active edition.
+     */
     @Override
     public void addEdition(Edition edition) {
         if (edition == null) {
@@ -43,23 +79,25 @@ public class MyEditionManager implements EditionManager {
         }
 
         if (this.numberOfEditions == this.editions.length) {
-            Edition[] temp = new Edition[this.editions.length * 2];
-            for (int i = 0; i < this.editions.length; i++) {
-                temp[i] = this.editions[i];
-            }
-            this.editions = temp;
+            resizeEditionsArray();
         }
+
         if (edition.getStatus() == Status.ACTIVE) {
             this.activeEditionIndex = this.numberOfEditions;
         }
         this.editions[this.numberOfEditions++] = edition;
     }
 
+    /**
+     * Removes an edition from the manager.
+     *
+     * @param editionName The name of the edition to remove.
+     * @throws IllegalArgumentException If the edition name is invalid or if the
+     * edition is not found.
+     */
     @Override
     public void removeEdition(String editionName) {
-        if (editionName == null || editionName.isEmpty()) {
-            throw new IllegalArgumentException("Edition name can't be null or empty.");
-        }
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
 
         for (int i = 0; i < this.numberOfEditions; i++) {
             if (this.editions[i].getName().equals(editionName)) {
@@ -69,6 +107,8 @@ public class MyEditionManager implements EditionManager {
                 this.editions[--this.numberOfEditions] = null;
                 if (this.activeEditionIndex == i) {
                     this.activeEditionIndex = -1;
+                } else if (this.activeEditionIndex > i) {
+                    this.activeEditionIndex--;
                 }
                 return; //breaks loop
             }
@@ -77,6 +117,12 @@ public class MyEditionManager implements EditionManager {
                 + " not found.");
     }
 
+    /**
+     * Returns the edition with the specified name.
+     * @param editionName The name of the edition.
+     * @return The edition with the specified name.
+     * @throws IllegalArgumentException If editionName is null or empty, or if no edition with the specified name is found.
+     */
     @Override
     public Edition getEdition(String editionName) {
         for (int i = 0; i < this.numberOfEditions; i++) {
@@ -84,14 +130,19 @@ public class MyEditionManager implements EditionManager {
                 return this.editions[i];
             }
         }
-        return null;
+        throw new IllegalArgumentException("Edition with name " + editionName + " not found.");
     }
 
+    /**
+     * Sets an edition as the active edition.
+     *
+     * @param editionName The name of the edition to set as active.
+     * @throws IllegalArgumentException If the edition name is invalid or if the
+     * edition is not found.
+     */
     @Override
     public void setActiveEdition(String editionName) {
-        if (editionName == null || editionName.isEmpty()) {
-            throw new IllegalArgumentException("Edition name can't be null or empty.");
-        }
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
 
         for (int i = 0; i < this.numberOfEditions; i++) {
             if (this.editions[i].getName().equals(editionName)) {
@@ -107,124 +158,174 @@ public class MyEditionManager implements EditionManager {
                 + " not found.");
     }
 
+     /**
+     * Returns the active edition.
+     * @return The active edition.
+     * @throws IllegalArgumentException If there is no active edition.
+     */
     @Override
     public Edition getActiveEdition() {
-        if (this.activeEditionIndex != -1) {
-            return this.editions[this.activeEditionIndex];
+        if (this.activeEditionIndex == -1) {
+            throw new IllegalArgumentException("No active edition found.");
         }
-        System.out.println("No ACTIVE Edition");
-        return null;
+        return this.editions[this.activeEditionIndex];
     }
 
+    /**
+     * Adds a project to a specific edition.
+     *
+     * @param projectName The name of the project to add.
+     * @param projectDescription The description of the project to add.
+     * @param projectTags The tags of the project to add.
+     * @param editionName The name of the edition to which the project will be
+     * added.
+     * @throws IOException If there is an error reading the file.
+     * @throws ParseException If there is an error parsing the file.
+     * @throws IllegalArgumentException If any of the arguments are invalid or
+     * if the edition is not found.
+     */
     @Override
-    public void addProjectToEdition(Project project, String editionName) throws IOException, ParseException {
-        if (project == null || editionName == null || editionName.isEmpty()) {
-            throw new IllegalArgumentException("Project and Edition cannot be null or empty.");
+    public void addProjectToEdition(String projectName, String projectDescription,
+            String[] projectTags, String editionName) throws IOException, ParseException {
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
+
+        if (projectName == null || projectDescription == null || projectTags == null) {
+            throw new IllegalArgumentException("Project details can't be null.");
         }
 
         Edition temp = this.getEdition(editionName);
-        if (temp == null) {
-            throw new IllegalArgumentException("Edition not found.");
-        }
 
-        temp.addProject(project.getName(), project.getDescription(), project.getTags());
+        temp.addProject(projectName, projectDescription, projectTags);
     }
 
+     /**
+     * Returns all editions that have at least one project not completed.
+     * @return An array of incomplete editions.
+     */
     @Override
     public Edition[] getIncompleteEditions() {
-        Edition[] tempEditions = new Edition[this.editions.length];
-        int count = 0;
-
+        // incomplete editions count
+        int incompleteEditionsCount = 0;
         for (int i = 0; i < this.numberOfEditions; i++) {
             Project[] tempProjects = editions[i].getProjects();
-
             for (int j = 0; j < tempProjects.length; j++) {
-                Project project = tempProjects[j];
-                if (!project.isCompleted()) {
-                    tempEditions[count++] = editions[i];
+                if (!tempProjects[j].isCompleted()) {
+                    incompleteEditionsCount++;
                     break;
                 }
             }
-
         }
 
-        Edition[] incompleteEditions = new Edition[count];
-        for (int i = 0; i < count; i++) {
-            incompleteEditions[i] = tempEditions[i];
+        // add incomplete edition to array
+        Edition[] incompleteEditions = new Edition[incompleteEditionsCount];
+        int count = 0;
+        for (int i = 0; i < this.numberOfEditions; i++) {
+            Project[] tempProjects = editions[i].getProjects();
+            for (int j = 0; j < tempProjects.length; j++) {
+                if (!tempProjects[j].isCompleted()) {
+                    incompleteEditions[count++] = editions[i];
+                    break;
+                }
+            }
         }
-
         return incompleteEditions;
     }
 
-    //projetos com submissões em falta de uma edição e da edição ativa
-    public Project[] getIncompleteProejctsFromEditions(String editionName) {
+    /**
+     * Returns an array of projects from the active edition and a specified
+     * edition that are incomplete.
+     *
+     * @param editionName The name of the specified edition.
+     * @throws IllegalArgumentException If the edition name is invalid or if the
+     * edition is not found.
+     * @return An array of incomplete projects from the active edition and the
+     * specified edition.
+     */
+    @Override
+    public Project[] getIncompleteProjectsFromEditions(String editionName) {
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
+
         Edition activeEdition = getActiveEdition();
         Edition specifiedEdition = getEdition(editionName);
 
         if (activeEdition == null || specifiedEdition == null) {
             throw new IllegalArgumentException("Edition not found.");
         }
-        Project[] tempProjects = new Project[activeEdition.getNumberOfProjects()
-                + specifiedEdition.getNumberOfProjects()];
+
+        int incompleteProjectsCount = 0;
+        Project[] activeEditionProjects = activeEdition.getProjects();
+        for (int i = 0; i < activeEdition.getNumberOfProjects(); i++) {
+            if (!activeEditionProjects[i].isCompleted()) {
+                incompleteProjectsCount++;
+            }
+        }
+
+        Project[] specifiedEditionProjects = specifiedEdition.getProjects();
+        for (int i = 0; i < specifiedEdition.getNumberOfProjects(); i++) {
+            if (!specifiedEditionProjects[i].isCompleted()) {
+                incompleteProjectsCount++;
+            }
+        }
+
+        Project[] incompleteProjects = new Project[incompleteProjectsCount];
         int projectCount = 0;
 
-        Project[] activeEditionProjects = activeEdition.getProjects();
-        Project[] specifiedEditionProjects = specifiedEdition.getProjects();
-
-        for (int i = 0; i < activeEditionProjects.length; i++) {
+        for (int i = 0; i < activeEdition.getNumberOfProjects(); i++) {
             if (!activeEditionProjects[i].isCompleted()) {
-                tempProjects[projectCount++] = activeEditionProjects[i];
+                incompleteProjects[projectCount++] = activeEditionProjects[i];
             }
         }
 
-        for (int i = 0; i < specifiedEditionProjects.length; i++) {
+        for (int i = 0; i < specifiedEdition.getNumberOfProjects(); i++) {
             if (!specifiedEditionProjects[i].isCompleted()) {
-                tempProjects[projectCount++] = specifiedEditionProjects[i];
+                incompleteProjects[projectCount++] = specifiedEditionProjects[i];
             }
-        }
-        Project[] incompleteProjects = new Project[projectCount];
-        for (int i = 0; i < projectCount; i++) {
-            incompleteProjects[i] = tempProjects[i];
         }
 
         return incompleteProjects;
-
     }
 
+     /**
+     * Returns the number of projects in a specific edition.
+     * @param editionName The name of the edition.
+     * @return The number of projects in the specified edition.
+     * @throws IllegalArgumentException If editionName is null or empty, or if no edition with the specified name is found.
+     */
     @Override
     public int getEditionNumberOfProjects(String editionName) {
-        if (editionName == null || editionName.isEmpty()) {
-            throw new IllegalArgumentException("Edition name can't be null or empty.");
-        }
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
 
         Edition temp = this.getEdition(editionName);
-        if (temp == null) {
-            throw new IllegalArgumentException("Edition not found.");
-        }
 
         return temp.getNumberOfProjects();
     }
 
+    /**
+     * Returns the total number of editions.
+     * @return The total number of editions.
+     */
     @Override
     public int getNumberOfEditions() {
         return this.numberOfEditions;
     }
 
+    /**
+     * Returns a text representation of the progress of a specific project from a specific edition.
+     * @param projectName The name of the project.
+     * @param editionName The name of the edition.
+     * @throws IllegalArgumentException If any of the arguments are invalid or if the edition or project is not found.
+     * @return A string describing the progress of the specified project.
+     */
     @Override
     public String getProjectProgress(String projectName, String editionName) {
-        if (projectName == null || projectName.isEmpty() || editionName == null || editionName.isEmpty()) {
-            throw new IllegalArgumentException("Project name and Edition name cannot be null or empty.");
-        }
+
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
+
+        checkStringValidity(projectName, "Project name can't be null or empty.");
 
         Edition targetEdition = getEdition(editionName);
-        if (targetEdition == null) {
-            throw new IllegalArgumentException("Edition with name " + editionName + " not found.");
-        }
 
         Project targetProject = targetEdition.getProject(projectName);
-        if (targetProject == null) {
-            throw new IllegalArgumentException("Project with name " + projectName + " not found in the provided edition.");
-        }
 
         Task[] tasks = targetProject.getTasks();
         int totalSubmissions = 0;
@@ -255,18 +356,20 @@ public class MyEditionManager implements EditionManager {
         return text;
     }
 
+    /**
+     * Returns a textual representation of the progress of a specific edition.
+     * @param editionName The name of the edition.
+     * @throws IllegalArgumentException If the edition name is invalid or if the edition is not found.
+     * @return A string describing the progress of the specified edition.
+     */
     @Override
     public String getEditionProgress(String editionName) {
-        if (editionName == null || editionName.isEmpty()) {
-            throw new IllegalArgumentException("Edition name cannot be null or empty.");
-        }
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
 
         Edition targetEdition = getEdition(editionName);
-        if (targetEdition == null) {
-            throw new IllegalArgumentException("Edition with name " + editionName + " not found.");
-        }
 
         Project[] projects = targetEdition.getProjects();
+
         int totalTasks = 0;
         int totalSubmissions = 0;
         int tasksWithSubmissions = 0;
@@ -316,9 +419,117 @@ public class MyEditionManager implements EditionManager {
         return text;
     }
 
+    /**
+     * Adds a submission to a specific project.
+     * @param projectName The name of the project.
+     * @param taskName The name of the task.
+     * @param submission The submission to add.
+     * @throws IllegalArgumentException If any of the arguments are invalid or if the project or task is not found.
+     */
     @Override
-    public void addSubmissionToProject(Submission submission, String nameProject, String studentEmail, ) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void addSubmissionToProject(String projectName, String taskName, Submission submission) {
+        checkStringValidity(projectName, "Project name can't be null or empty.");
+
+        checkStringValidity(taskName, "Task name can't be null or empty.");
+
+        if (submission == null || submission.getStudent() == null) {
+            throw new IllegalArgumentException("tudent or Submission cannot be null or empty.");
+        }
+
+        Edition activeEdition = getActiveEdition();
+
+        Project targetProject = activeEdition.getProject(projectName);
+
+        // Verifies student is in project
+        String studentEmail = submission.getStudent().getEmail();
+        if (targetProject.getParticipant(studentEmail) == null) {
+            throw new IllegalArgumentException("Student with email " + studentEmail + " is not part of the project " + projectName + ".");
+        }
+
+        Task targetTask = targetProject.getTask(taskName);
+        if (targetTask == null) {
+            throw new IllegalArgumentException("Task with name " + taskName + " not found in the project " + projectName + ".");
+        }
+
+        targetTask.addSubmission(submission);
+
     }
 
+    /**
+     * Adds a participant to a specific project in the active edition.
+     * @param participant The participant to add.
+     * @param projectName The name of the project.
+     * @throws ma02_resources.project.exceptions.IllegalNumberOfParticipantType If the number of a specific type of participant in the project exceeds a certain limit.
+     * @throws ma02_resources.project.exceptions.ParticipantAlreadyInProject If the participant is already in the project.
+     * @throws IllegalArgumentException If any of the arguments are invalid, if the project is not found, or if the participant is null.
+     */
+    @Override
+    public void addParticipantToProject(Participant participant, String projectName) throws IllegalNumberOfParticipantType, ParticipantAlreadyInProject {
+        checkStringValidity(projectName, "Project name can't be null or empty.");
+
+        Edition activeEdition = this.getActiveEdition();
+
+        Project targetProject = activeEdition.getProject(projectName);
+
+        if (targetProject == null) {
+            throw new IllegalArgumentException("Project with name " + projectName + " not found in the active edition.");
+        }
+
+        targetProject.addParticipant(participant);
+    }
+
+     /**
+     * Removes a participant from a specific project in the active edition.
+     * @param participantEmail The email of the participant to remove.
+     * @param projectName The name of the project.
+     * @throws IllegalArgumentException If any of the arguments are invalid, if the project is not found, or if the participant with the given email is not found in the project.
+     */
+    @Override
+    public void removeParticipantFromProject(String participantEmail, String projectName) {
+        checkStringValidity(projectName, "Project name can't be null or empty.");
+        checkStringValidity(participantEmail, "Participant email can't be null or empty.");
+
+        Edition activeEdition = getActiveEdition();
+
+        Project targetProject = activeEdition.getProject(projectName);
+
+        targetProject.removeParticipant(participantEmail);
+    }
+    
+
+     /**
+     * Removes a project from the active edition.
+     * @param projectName The name of the project to remove.
+     * @throws IllegalArgumentException If the projectName argument is invalid or if the project is not found.
+     */
+    @Override
+    public void removeProjectFromEdition(String projectName) {
+        Edition activeEdition = getActiveEdition();
+
+        Project targetProject = activeEdition.getProject(projectName);
+
+        activeEdition.removeProject(projectName);
+    }
+    
+    /**
+     * Adds a task to a specific project in the active edition.
+     * @param projectName The name of the project.
+     * @param task The task to add.
+     * @throws ma02_resources.project.exceptions.IllegalNumberOfTasks If the number of tasks in the project exceeds a certain limit.
+     * @throws ma02_resources.project.exceptions.TaskAlreadyInProject If the task is already in the project.
+     * @throws IllegalArgumentException If any of the arguments are invalid or if the project is not found.
+     */
+    @Override
+    public void addTaskToProject(String projectName, Task task) throws IllegalNumberOfTasks, TaskAlreadyInProject {
+        if (task == null) {
+            throw new IllegalArgumentException("Task cannot be null.");
+        }
+        
+        Edition activeEdition = getActiveEdition();
+        
+        Project targetProject = activeEdition.getProject(projectName);
+        
+        targetProject.addTask(task);
+
+    }
 }
