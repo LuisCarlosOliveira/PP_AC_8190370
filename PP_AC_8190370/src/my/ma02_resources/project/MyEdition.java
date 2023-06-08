@@ -45,10 +45,15 @@ public class MyEdition implements Edition {
      * @param projectTemplate       project Template
      */
     public MyEdition(String name, LocalDate start, String projectTemplate) {
-        if (name == null || name.isEmpty() || start == null
-                || start.isBefore(LocalDate.now()) || projectTemplate == null
-                || projectTemplate.isEmpty()) {
-            throw new IllegalArgumentException();
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Edition name can't be empty or null.");
+        }
+        if (start == null || start.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Invalid start date. Start date "
+                    + "must be a future date or can't be empty or null.");
+        }
+        if (projectTemplate == null || projectTemplate.isEmpty()) {
+            throw new IllegalArgumentException("Project template can't be empty or null");
         }
 
         this.name = name;
@@ -220,7 +225,7 @@ public class MyEdition implements Edition {
 
     @Override
     public Project[] getProjects() {
-        return this.getProjects();
+        return this.projects;
     }
 
     @Override

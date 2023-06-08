@@ -61,4 +61,9 @@ public interface EditionManager {
 
     public void addTaskToProject(String projectName, Task task) throws IllegalNumberOfTasks, TaskAlreadyInProject;
 
-    }
+    public String listOfIncompleteEditions();
+
+    public String listOfIncompleteProjectsFromEditions(String editionName);
+    
+    public String printEditionsInfo();
+}

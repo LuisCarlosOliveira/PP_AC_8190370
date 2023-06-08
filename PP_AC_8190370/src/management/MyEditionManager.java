@@ -8,6 +8,7 @@ package management;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.util.Arrays;
 import ma02_resources.participants.Participant;
 import ma02_resources.project.Edition;
 import ma02_resources.project.Project;
@@ -39,8 +40,10 @@ public class MyEditionManager implements EditionManager {
 
     /**
      * Checks if a string is valid (not null and not empty).
+     *
      * @param str The string to check.
-     * @param errorMessage The error message to include in the exception if the string is not valid.
+     * @param errorMessage The error message to include in the exception if the
+     * string is not valid.
      * @throws IllegalArgumentException If str is null or empty.
      */
     private void checkStringValidity(String str, String errorMessage) {
@@ -49,9 +52,9 @@ public class MyEditionManager implements EditionManager {
         }
     }
 
-     /**
-     * Resizes the editions array when it becomes full.
-     * Doubles the size of the array to accommodate more editions.
+    /**
+     * Resizes the editions array when it becomes full. Doubles the size of the
+     * array to accommodate more editions.
      */
     private void resizeEditionsArray() {
         Edition[] temp = new Edition[this.editions.length * 2];
@@ -119,9 +122,11 @@ public class MyEditionManager implements EditionManager {
 
     /**
      * Returns the edition with the specified name.
+     *
      * @param editionName The name of the edition.
      * @return The edition with the specified name.
-     * @throws IllegalArgumentException If editionName is null or empty, or if no edition with the specified name is found.
+     * @throws IllegalArgumentException If editionName is null or empty, or if
+     * no edition with the specified name is found.
      */
     @Override
     public Edition getEdition(String editionName) {
@@ -158,8 +163,9 @@ public class MyEditionManager implements EditionManager {
                 + " not found.");
     }
 
-     /**
+    /**
      * Returns the active edition.
+     *
      * @return The active edition.
      * @throws IllegalArgumentException If there is no active edition.
      */
@@ -198,8 +204,9 @@ public class MyEditionManager implements EditionManager {
         temp.addProject(projectName, projectDescription, projectTags);
     }
 
-     /**
+    /**
      * Returns all editions that have at least one project not completed.
+     *
      * @return An array of incomplete editions.
      */
     @Override
@@ -285,11 +292,13 @@ public class MyEditionManager implements EditionManager {
         return incompleteProjects;
     }
 
-     /**
+    /**
      * Returns the number of projects in a specific edition.
+     *
      * @param editionName The name of the edition.
      * @return The number of projects in the specified edition.
-     * @throws IllegalArgumentException If editionName is null or empty, or if no edition with the specified name is found.
+     * @throws IllegalArgumentException If editionName is null or empty, or if
+     * no edition with the specified name is found.
      */
     @Override
     public int getEditionNumberOfProjects(String editionName) {
@@ -302,6 +311,7 @@ public class MyEditionManager implements EditionManager {
 
     /**
      * Returns the total number of editions.
+     *
      * @return The total number of editions.
      */
     @Override
@@ -310,10 +320,13 @@ public class MyEditionManager implements EditionManager {
     }
 
     /**
-     * Returns a text representation of the progress of a specific project from a specific edition.
+     * Returns a text representation of the progress of a specific project from
+     * a specific edition.
+     *
      * @param projectName The name of the project.
      * @param editionName The name of the edition.
-     * @throws IllegalArgumentException If any of the arguments are invalid or if the edition or project is not found.
+     * @throws IllegalArgumentException If any of the arguments are invalid or
+     * if the edition or project is not found.
      * @return A string describing the progress of the specified project.
      */
     @Override
@@ -358,8 +371,10 @@ public class MyEditionManager implements EditionManager {
 
     /**
      * Returns a textual representation of the progress of a specific edition.
+     *
      * @param editionName The name of the edition.
-     * @throws IllegalArgumentException If the edition name is invalid or if the edition is not found.
+     * @throws IllegalArgumentException If the edition name is invalid or if the
+     * edition is not found.
      * @return A string describing the progress of the specified edition.
      */
     @Override
@@ -421,10 +436,12 @@ public class MyEditionManager implements EditionManager {
 
     /**
      * Adds a submission to a specific project.
+     *
      * @param projectName The name of the project.
      * @param taskName The name of the task.
      * @param submission The submission to add.
-     * @throws IllegalArgumentException If any of the arguments are invalid or if the project or task is not found.
+     * @throws IllegalArgumentException If any of the arguments are invalid or
+     * if the project or task is not found.
      */
     @Override
     public void addSubmissionToProject(String projectName, String taskName, Submission submission) {
@@ -457,11 +474,16 @@ public class MyEditionManager implements EditionManager {
 
     /**
      * Adds a participant to a specific project in the active edition.
+     *
      * @param participant The participant to add.
      * @param projectName The name of the project.
-     * @throws ma02_resources.project.exceptions.IllegalNumberOfParticipantType If the number of a specific type of participant in the project exceeds a certain limit.
-     * @throws ma02_resources.project.exceptions.ParticipantAlreadyInProject If the participant is already in the project.
-     * @throws IllegalArgumentException If any of the arguments are invalid, if the project is not found, or if the participant is null.
+     * @throws ma02_resources.project.exceptions.IllegalNumberOfParticipantType
+     * If the number of a specific type of participant in the project exceeds a
+     * certain limit.
+     * @throws ma02_resources.project.exceptions.ParticipantAlreadyInProject If
+     * the participant is already in the project.
+     * @throws IllegalArgumentException If any of the arguments are invalid, if
+     * the project is not found, or if the participant is null.
      */
     @Override
     public void addParticipantToProject(Participant participant, String projectName) throws IllegalNumberOfParticipantType, ParticipantAlreadyInProject {
@@ -478,11 +500,14 @@ public class MyEditionManager implements EditionManager {
         targetProject.addParticipant(participant);
     }
 
-     /**
+    /**
      * Removes a participant from a specific project in the active edition.
+     *
      * @param participantEmail The email of the participant to remove.
      * @param projectName The name of the project.
-     * @throws IllegalArgumentException If any of the arguments are invalid, if the project is not found, or if the participant with the given email is not found in the project.
+     * @throws IllegalArgumentException If any of the arguments are invalid, if
+     * the project is not found, or if the participant with the given email is
+     * not found in the project.
      */
     @Override
     public void removeParticipantFromProject(String participantEmail, String projectName) {
@@ -495,12 +520,13 @@ public class MyEditionManager implements EditionManager {
 
         targetProject.removeParticipant(participantEmail);
     }
-    
 
-     /**
+    /**
      * Removes a project from the active edition.
+     *
      * @param projectName The name of the project to remove.
-     * @throws IllegalArgumentException If the projectName argument is invalid or if the project is not found.
+     * @throws IllegalArgumentException If the projectName argument is invalid
+     * or if the project is not found.
      */
     @Override
     public void removeProjectFromEdition(String projectName) {
@@ -510,26 +536,110 @@ public class MyEditionManager implements EditionManager {
 
         activeEdition.removeProject(projectName);
     }
-    
+
     /**
      * Adds a task to a specific project in the active edition.
+     *
      * @param projectName The name of the project.
      * @param task The task to add.
-     * @throws ma02_resources.project.exceptions.IllegalNumberOfTasks If the number of tasks in the project exceeds a certain limit.
-     * @throws ma02_resources.project.exceptions.TaskAlreadyInProject If the task is already in the project.
-     * @throws IllegalArgumentException If any of the arguments are invalid or if the project is not found.
+     * @throws ma02_resources.project.exceptions.IllegalNumberOfTasks If the
+     * number of tasks in the project exceeds a certain limit.
+     * @throws ma02_resources.project.exceptions.TaskAlreadyInProject If the
+     * task is already in the project.
+     * @throws IllegalArgumentException If any of the arguments are invalid or
+     * if the project is not found.
      */
     @Override
     public void addTaskToProject(String projectName, Task task) throws IllegalNumberOfTasks, TaskAlreadyInProject {
         if (task == null) {
             throw new IllegalArgumentException("Task cannot be null.");
         }
-        
+
         Edition activeEdition = getActiveEdition();
-        
+
         Project targetProject = activeEdition.getProject(projectName);
-        
+
         targetProject.addTask(task);
 
     }
+
+    @Override
+    public String listOfIncompleteEditions() {
+        Edition[] incompleteEditions = this.getIncompleteEditions();
+
+        String text = "";
+
+        if (incompleteEditions.length == 0) {
+            text += "ALL EDITION ARE COMPLETE";
+        } else {
+
+            text += "List of incomplete Editions:\n";
+            for (int i = 0; i < incompleteEditions.length; i++) {
+                text += incompleteEditions[i].getName();
+                text += "\n";
+            }
+        }
+        return text;
+
+    }
+
+    @Override
+    public String listOfIncompleteProjectsFromEditions(String editionName) {
+        Project[] incompleteProjects = this.getIncompleteProjectsFromEditions(editionName);
+
+        String text = "";
+
+        if (incompleteProjects.length == 0) {
+            text += "ALL PROJECTS ARE COMPLETE";
+        } else {
+
+            text += "List of incomplete Projects from Active Edition and Edition: "
+                    + editionName + " \n";
+            for (int i = 0; i < incompleteProjects.length; i++) {
+                text += incompleteProjects[i].getName();
+                text += "\n";
+            }
+        }
+        return text;
+    }
+
+    public String printEditionsInfo() {
+        String text = "";
+
+        for (int i = 0; i < this.numberOfEditions; i++) {
+            Edition edition = this.editions[i];
+            text += "Edition Name: " + edition.getName() + "\n"
+                    + "Start Date: " + edition.getStart() + "\n"
+                    + "Project Template: " + edition.getProjectTemplate() + "\n"
+                    + "Status: " + edition.getStatus() + "\n"
+                    + "Number of Projects: " + edition.getNumberOfProjects() + "\n";
+
+            // check if there are projects to print
+            if (edition.getNumberOfProjects() > 0) {
+                for (int j = 0; j < edition.getNumberOfProjects(); j++) {
+                    Project project = edition.getProjects()[j];
+
+                    text += "-- Project Information --\n"
+                            + "Project Name: " + project.getName() + "\n"
+                            + "Project Description: " + project.getDescription() + "\n"
+                            + "Project Tags: " + Arrays.toString(project.getTags()) + "\n"
+                            + "Maximum Number of Participants: " + project.getMaximumNumberOfParticipants() + "\n"
+                            + "Maximum Number of Students: " + project.getMaximumNumberOfStudents() + "\n"
+                            + "Maximum Number of Partners: " + project.getMaximumNumberOfPartners() + "\n"
+                            + "Maximum Number of Facilitators: " + project.getMaximumNumberOfFacilitators() + "\n"
+                            + "Maximum Number of Tasks: " + project.getMaximumNumberOfTasks() + "\n"
+                            + "Number of Participants: " + project.getNumberOfParticipants() + "\n"
+                            + "Number of Students: " + project.getNumberOfStudents() + "\n"
+                            + "Number of Partners: " + project.getNumberOfPartners() + "\n"
+                            + "Number of Facilitators: " + project.getNumberOfFacilitators() + "\n"
+                            + "Number of Tasks: " + project.getNumberOfTasks() + "\n";
+                }
+            }
+
+            text += "---------------------------------------------\n";
+        }
+
+        return text;
+    }
+
 }
