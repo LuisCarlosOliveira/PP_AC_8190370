@@ -642,4 +642,30 @@ public class MyEditionManager implements EditionManager {
         return text;
     }
 
+    @Override
+    public String printEditionInfo(String editionName) {
+        Edition edition = this.getEdition(editionName);
+        
+        String text = "";
+        text += "Edition Name: " + edition.getName() + "\n"
+                + "Start Date: " + edition.getStart() + "\n"
+                + "Project Template: " + edition.getProjectTemplate() + "\n"
+                + "Status: " + edition.getStatus() + "\n"
+                + "Number of Projects: " + edition.getNumberOfProjects() + "\n";
+
+        if (edition.getNumberOfProjects() > 0) {
+            text += "---- Projects in the Edition ----\n";
+            for (int i = 0; i < edition.getNumberOfProjects(); i++) {
+                Project project = edition.getProjects()[i];
+                text += "Project Name: " + project.getName() + "\n"
+                        + "Project Description: " + project.getDescription() + "\n"
+                        + "Number of Participants: " + project.getNumberOfParticipants() + "\n"
+                        + "Number of Tasks: " + project.getNumberOfTasks() + "\n"
+                        + "---------------------------------\n";
+            }
+        }
+
+        return text;
+    }
+
 }

@@ -66,4 +66,6 @@ public interface EditionManager {
     public String listOfIncompleteProjectsFromEditions(String editionName);
     
     public String printEditionsInfo();
+    
+    public String printEditionInfo(String editionName);
 }

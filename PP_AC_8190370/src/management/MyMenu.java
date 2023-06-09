@@ -34,8 +34,9 @@ public class MyMenu {
         while (runMenu) {
 
             System.out.println("\n===== MAIN MENU =====");
-            System.out.println("1- ADD EDITION");
-            System.out.println("2- ADD PROJECT TO EDITION");
+            System.out.println("1- Edition Menu");
+            System.out.println("2- Projects Menu");
+            System.out.println("3- Particiants Menu");
             System.out.println("9- LISTS AND REPORTS");
             System.out.println("0 - EXIT");
             System.out.print("Option:");
@@ -48,10 +49,11 @@ public class MyMenu {
                         System.out.print("\nBYE\n");
                         System.exit(0);
                     case 1:
-                        this.addEditionToManagement();
+                        this.editionsMenu();
                         break;
+
                     case 2:
-                        this.userAddProjectToEdition();
+                        this.projectsMenu();
                         break;
                     case 9:
                         this.listsAndReports();
@@ -61,7 +63,7 @@ public class MyMenu {
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Option");
-                scan.nextLine(); // Limpar o input inválido do Scanner
+                scan.nextLine();
             }
         }
     }
@@ -73,7 +75,7 @@ public class MyMenu {
             System.out.println("\n--LISTS AND REPORTS--");
             System.out.println("1- List Edtions Names");
             System.out.println("2- List Of IncompleteEditions");
-            System.out.println("3- List Of Incomplete Projects");
+            System.out.println("3- List Of Incomplete Projects From Ative and Other Edition");
             System.out.println("4- Edition Progress");
             System.out.println("5- List Of Incomplete Projects");
             System.out.println("0- Back to MAIN MENU");
@@ -91,12 +93,93 @@ public class MyMenu {
                     case 2:
                         System.out.println(this.myEditionManager.listOfIncompleteEditions());
                         break;
+                    case 3:
+                        this.getListOfIncompleteProjectsFromEditions();
+                        break;
                     default:
                         System.out.println("Invalid Option");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid Option");
-                scan.nextLine(); // Limpar o input inválido do Scanner
+                scan.nextLine();
+            }
+        }
+
+    }
+
+    public void projectsMenu() {
+        boolean runMenu = true;
+        Scanner scan = new Scanner(System.in);
+        while (runMenu) {
+            System.out.println("\n--PROJECTS MENUS--");
+            System.out.println("1- Add Project To Edition");
+            System.out.println("1- Remove Project From Edition");
+            System.out.println("3- -");
+            System.out.println("4- - Progress");
+            System.out.println("5- -");
+            System.out.println("0- Back to MAIN MENU");
+            System.out.print("Option:");
+            try {
+                int op = scan.nextInt();
+
+                switch (op) {
+                    case 0:
+                        this.mainMenu();
+                        break;
+                    case 1:
+                        this.userAddProjectToEdition();
+                        break;
+                    case 2:
+
+                        break;
+                    default:
+                        System.out.println("Invalid Option");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Option");
+                scan.nextLine();
+            }
+        }
+
+    }
+
+    public void editionsMenu() {
+        boolean runMenu = true;
+        Scanner scan = new Scanner(System.in);
+        while (runMenu) {
+            System.out.println("\n--EDITIONS MENUS--");
+            System.out.println("1- Add Edition");
+            System.out.println("1- Remove Edition");
+            System.out.println("3- Edition Information");
+            System.out.println("4- Set Edition Ative");
+            System.out.println("5- -");
+            System.out.println("0- Back to MAIN MENU");
+            System.out.print("Option:");
+            try {
+                int op = scan.nextInt();
+
+                switch (op) {
+                    case 0:
+                        this.mainMenu();
+                        break;
+                    case 1:
+                        this.addEditionToManagement();
+                        break;
+                    case 2:
+                        this.userRemoveEdition();
+                        break;
+                    case 3:
+                        this.userPrintEditionInfo();
+                        break;
+                    case 4:
+                        this.userSetActiveEdition();
+                        break;
+                    default:
+                        System.out.println("Invalid Option");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid Option");
+                scan.nextLine();
             }
         }
 
@@ -124,7 +207,7 @@ public class MyMenu {
                 this.myEditionManager.addEdition(edition);
                 System.out.println("Edition added successfully.");
             } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage()); // Exibe a mensagem de erro personalizada
+                System.out.println(e.getMessage());
             }
         } catch (DateTimeParseException e) {
             System.out.println("Invalid date format. Please enter the date in the format YYYY-MM-DD.");
@@ -153,6 +236,70 @@ public class MyMenu {
             this.myEditionManager.addProjectToEdition(projectName, projectDescription, projectTags, editionName);
             System.out.println("Project added successfully to the edition.");
         } catch (IOException | ParseException | IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void getListOfIncompleteProjectsFromEditions() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("\n--GET LIST OF INCOMPLETE PROJECTS FROM ATIVE EDITION AND OTHER EDITION--");
+
+        System.out.print("Enter edition name: ");
+        String editionName = scan.nextLine();
+
+        try {
+            String result = this.myEditionManager.listOfIncompleteProjectsFromEditions(editionName);
+            System.out.println(result);
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void userRemoveEdition() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("\n--REMOVE EDITION--");
+
+        System.out.print("Enter edition name: ");
+        String editionName = scan.nextLine();
+
+        try {
+            this.myEditionManager.removeEdition(editionName);
+            System.out.println("Edition removed successfully.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    public void userPrintEditionInfo() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("\n--Edition Information--");
+
+        System.out.print("Enter edition name: ");
+        String editionName = scan.nextLine();
+
+        try {
+            System.out.println(this.myEditionManager.printEditionInfo(editionName));
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+    public void userSetActiveEdition() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.println("\n--Set Edition Active--");
+        //System.out.println("\n > Current Active Edition: " + this.myEditionManager.getActiveEdition().getName());
+        System.out.print("Enter edition name to set Active: ");
+        String editionName = scan.nextLine();
+
+        try {
+            this.myEditionManager.setActiveEdition(editionName);
+            System.out.println("New Active Edition");
+        } catch (IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
