@@ -1,4 +1,4 @@
-/*
+/**
  * @file MyStudent.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date 
@@ -13,10 +13,7 @@ import ma02_resources.participants.Contact;
 import ma02_resources.participants.Instituition;
 import ma02_resources.participants.Student;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MyStudent extends MyParticipant implements Student {
 
     private int number;

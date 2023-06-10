@@ -1,4 +1,4 @@
-/*
+/**
  * @file: MyTask.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
@@ -13,10 +13,7 @@ import java.time.LocalDate;
 import ma02_resources.project.Submission;
 import ma02_resources.project.Task;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MyTask implements Task {
 
     private static final int SIZE = 10;

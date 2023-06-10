@@ -1,4 +1,4 @@
-/*
+/**
  * @file MyFacilitator.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date 
@@ -13,10 +13,6 @@ import ma02_resources.participants.Contact;
 import ma02_resources.participants.Facilitator;
 import ma02_resources.participants.Instituition;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
 public class MyFacilitator extends MyParticipant implements Facilitator {
 
     private String areaOfExpertise;

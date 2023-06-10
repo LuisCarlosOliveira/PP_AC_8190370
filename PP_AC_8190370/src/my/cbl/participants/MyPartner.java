@@ -1,4 +1,4 @@
-/*
+/**
  * @file MyPartner.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date 
@@ -13,10 +13,7 @@ import ma02_resources.participants.Contact;
 import ma02_resources.participants.Instituition;
 import ma02_resources.participants.Partner;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MyPartner extends MyParticipant implements Partner {
 
     private String vat;

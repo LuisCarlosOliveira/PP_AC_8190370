@@ -1,4 +1,4 @@
-/*
+/**
  * @file: MySubmission.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
@@ -13,10 +13,7 @@ import java.time.LocalDateTime;
 import ma02_resources.participants.Student;
 import ma02_resources.project.Submission;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MySubmission implements Submission {
 
     private LocalDateTime date;

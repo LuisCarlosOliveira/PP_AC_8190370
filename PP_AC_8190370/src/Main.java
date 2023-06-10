@@ -7,16 +7,13 @@ import management.MyEditionManager;
 import management.MyMenu;
 import my.ma02_resources.project.MyEdition;
 
-/*
+/**
  * @file: 
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
  * @brief
  */
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class Main {
 
     public static void main(String[] args) {

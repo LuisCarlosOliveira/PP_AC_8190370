@@ -1,4 +1,4 @@
-/*
+/**
  * @file: MyEdition.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
@@ -23,10 +23,7 @@ import ma02_resources.project.Project;
 import ma02_resources.project.Status;
 import ma02_resources.project.Task;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MyEdition implements Edition {
 
     private String name;
@@ -141,6 +138,17 @@ public class MyEdition implements Edition {
         this.projects[this.numberOfProjects++] = project;
     }
 
+    /**
+     * Adds a project to the edition. The project is created from the template.
+     *
+     * @param name        The name of the project.
+     * @param description The description of the project.
+     * @param tags        The tags of the project.
+     * @throws IOException        if the project template is not found.
+     * @throws ParseException     if the project template is not valid.
+     * @throws IllegalArgumentException if the project name is null or empty, if the project already exists,
+     *                                  if the description is null or empty, or if the tags are null or empty.
+     */
     @Override
     public void addProject(String name, String description, String[] tags) throws IOException, ParseException {
         if (name == null || name.isEmpty()) {
@@ -193,6 +201,12 @@ public class MyEdition implements Edition {
         }
     }
 
+    /**
+     * Removes a project from the edition.
+     *
+     * @param projectName The name of the project.
+     * @throws IllegalArgumentException if the project name is null or empty, or if the project does not exist.
+     */
     @Override
     public void removeProject(String projectName) {
         if (projectName == null || projectName.isEmpty()) {
@@ -210,6 +224,13 @@ public class MyEdition implements Edition {
         throw new IllegalArgumentException("Project not found.");
     }
 
+    /**
+     * Returns a project from the edition.
+     *
+     * @param name The name of the project.
+     * @return The project.
+     * @throws IllegalArgumentException if the project name is null or empty, or if the project does not exist.
+     */
     @Override
     public Project getProject(String projectName) {
         if (projectName == null || projectName.isEmpty()) {
@@ -223,11 +244,22 @@ public class MyEdition implements Edition {
         throw new IllegalArgumentException("Project not found.");
     }
 
+    /**
+     * Returns all the projects of the edition.
+     *
+     * @return An array of projects.
+     */
     @Override
     public Project[] getProjects() {
         return this.projects;
     }
 
+    /**
+     * Returns all the projects of the edition that have a specific tag.
+     *
+     * @param tag The tag of the projects.
+     * @return An array of projects.
+     */
     @Override
     public Project[] getProjectsByTag(String tag) {
         int count = 0;
@@ -247,6 +279,12 @@ public class MyEdition implements Edition {
         return projectsWithTag;
     }
 
+    /**
+     * Returns all the projects of the edition that have a specific participant.
+     *
+     * @param email The email of the participant.
+     * @return An array of projects.
+     */
     @Override
     public Project[] getProjectsOf(String email) {
         // array with the same size as the project
@@ -269,11 +307,21 @@ public class MyEdition implements Edition {
         return returningParticipantProjects;
     }
 
+    /**
+     * Returns the number of existing projects in the edition.
+     *
+     * @return The number of existing projects.
+     */
     @Override
     public int getNumberOfProjects() {
         return this.numberOfProjects;
     }
 
+    /**
+     * Returns the date of the last task ending date in the projects.
+     *
+     * @return The date of the last task ending date in the projects.
+     */
     @Override
     public LocalDate getEnd() {
         LocalDate lastTaskEndDate = null;
@@ -291,6 +339,12 @@ public class MyEdition implements Edition {
         return lastTaskEndDate;
     }
 
+    /**
+     * Checks if two objects are equal based on their name.
+     *
+     * @param obj The object to be compared.
+     * @return true if the objects are equal, false otherwise.
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

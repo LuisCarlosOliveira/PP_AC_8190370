@@ -1,5 +1,5 @@
-/*
- * @file: 
+/**
+ * @file: EditionManager.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
  * @brief
@@ -19,10 +19,6 @@ import ma02_resources.project.exceptions.IllegalNumberOfTasks;
 import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
 public interface EditionManager {
 
     public void addEdition(Edition edition);
@@ -68,4 +64,6 @@ public interface EditionManager {
     public String printEditionsInfo();
     
     public String printEditionInfo(String editionName);
+    
+    public String getAllProjectNamesFromEdition(String editionName);
 }

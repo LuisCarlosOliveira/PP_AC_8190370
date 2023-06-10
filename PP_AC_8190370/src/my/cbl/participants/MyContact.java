@@ -1,4 +1,4 @@
-/*
+/**
  * @file MyContact.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date 

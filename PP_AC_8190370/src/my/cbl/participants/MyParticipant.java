@@ -1,4 +1,4 @@
-/*
+/**
  * @file MyParticipant.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date 
@@ -14,10 +14,6 @@ import ma02_resources.participants.Contact;
 import ma02_resources.participants.Instituition;
 import ma02_resources.participants.Participant;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
 public abstract class MyParticipant implements Participant {
 
     private String name;

@@ -1,16 +1,11 @@
-/*
- * @file: 
+/**
+ * @file: TaskModel.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief
+ * @brief: model class to retrieve Task information from JSON
  */
 package ModelClasses;
 import com.google.gson.annotations.SerializedName;
-
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
 
 
 public class TaskModel {

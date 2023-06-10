@@ -1,4 +1,4 @@
-/*
+/**
  * @file: MyProject.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
@@ -20,10 +20,7 @@ import ma02_resources.project.exceptions.IllegalNumberOfTasks;
 import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MyProject implements Project {
 
     private String name;

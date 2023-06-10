@@ -1,13 +1,16 @@
-/*
- * @file: 
+/**
+ * @file: MyEditionManager.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief
+ * @brief: This file contains the implementation of the MyEditionManager class.
+ * MyEditionManager is a concrete implementation of the EditionManager interface.
+ * It represents a Edition Manager.
  */
 package management;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import java.util.Arrays;
 import ma02_resources.participants.Participant;
 import ma02_resources.project.Edition;
@@ -21,10 +24,7 @@ import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
 import myInterfaces.EditionManager;
 
-/**
- *
- * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- */
+
 public class MyEditionManager implements EditionManager {
 
     private Edition[] editions;
@@ -32,10 +32,21 @@ public class MyEditionManager implements EditionManager {
     private int activeEditionIndex;
     private static final int SIZE = 10;
 
+   
+
     public MyEditionManager() {
         this.editions = new Edition[SIZE];
         this.numberOfEditions = 0;
         this.activeEditionIndex = -1;
+    }
+    
+    /**
+     * Getter method for Editions
+     *
+     * @return the Editions
+     */
+     public Edition[] getEditions() {
+        return this.editions;
     }
 
     /**
@@ -563,6 +574,11 @@ public class MyEditionManager implements EditionManager {
 
     }
 
+    /**
+     * Returns the list of incomplete editions.
+     *
+     * @return the text representation of incomplete editions
+     */
     @Override
     public String listOfIncompleteEditions() {
         Edition[] incompleteEditions = this.getIncompleteEditions();
@@ -583,6 +599,13 @@ public class MyEditionManager implements EditionManager {
 
     }
 
+    /**
+     * Returns the list of incomplete projects from the specified edition.
+     *
+     * @param editionName the name of the edition
+     * @return the text representation of incomplete projects from the specified
+     * edition
+     */
     @Override
     public String listOfIncompleteProjectsFromEditions(String editionName) {
         Project[] incompleteProjects = this.getIncompleteProjectsFromEditions(editionName);
@@ -603,6 +626,12 @@ public class MyEditionManager implements EditionManager {
         return text;
     }
 
+    /**
+     * Prints information about all editions and their projects.
+     *
+     * @return the text representation of editions and their projects
+     * information
+     */
     public String printEditionsInfo() {
         String text = "";
 
@@ -642,10 +671,17 @@ public class MyEditionManager implements EditionManager {
         return text;
     }
 
+    /**
+     * Prints information about the specified edition and its projects.
+     *
+     * @param editionName the name of the edition
+     * @return the text representation of the specified edition and its projects
+     * information
+     */
     @Override
     public String printEditionInfo(String editionName) {
         Edition edition = this.getEdition(editionName);
-        
+
         String text = "";
         text += "Edition Name: " + edition.getName() + "\n"
                 + "Start Date: " + edition.getStart() + "\n"
@@ -662,6 +698,110 @@ public class MyEditionManager implements EditionManager {
                         + "Number of Participants: " + project.getNumberOfParticipants() + "\n"
                         + "Number of Tasks: " + project.getNumberOfTasks() + "\n"
                         + "---------------------------------\n";
+            }
+        }
+
+        return text;
+    }
+
+    /**
+     * Returns the names of all projects from the specified edition.
+     *
+     * @param editionName the name of the edition
+     * @return the text representation of project names from the specified
+     * edition
+     */
+    @Override
+    public String getAllProjectNamesFromEdition(String editionName) {
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
+
+        Edition targetEdition = this.getEdition(editionName);
+        Project[] projects = targetEdition.getProjects();
+
+        String text = "Projects in Edition " + editionName + ":\n";
+        for (int i = 0; i < projects.length; i++) {
+            text += projects[i].getName() + "\n";
+        }
+
+        return text;
+    }
+
+    public Edition[] getCompleteEditions() {
+        // complete editions count
+        int completeEditionsCount = 0;
+        for (int i = 0; i < this.numberOfEditions; i++) {
+            boolean isComplete = true;
+            Project[] tempProjects = editions[i].getProjects();
+            for (int j = 0; j < tempProjects.length; j++) {
+                if (!tempProjects[j].isCompleted()) {
+                    isComplete = false;
+                    break;
+                }//edition is only complete if all project are complete
+            }
+            if (isComplete) {
+                completeEditionsCount++;
+            }
+        }
+
+        // add complete edition to array
+        Edition[] completeEditions = new Edition[completeEditionsCount];
+        int count = 0;
+        for (int i = 0; i < this.numberOfEditions; i++) {
+            boolean isComplete = true;
+            Project[] tempProjects = editions[i].getProjects();
+            for (int j = 0; j < tempProjects.length; j++) {
+                if (!tempProjects[j].isCompleted()) {
+                    isComplete = false;
+                    break;
+                }
+            }
+            if (isComplete) {
+                completeEditions[count++] = editions[i];
+            }
+        }
+        return completeEditions;
+    }
+
+    /**
+     * Returns a list of complete editions.
+     *
+     * @return A string representation of the complete editions.
+     */
+    public String listOfCompleteEditions() {
+        Edition[] completeEditions = this.getCompleteEditions();
+
+        String text = "";
+
+        if (completeEditions.length == 0) {
+            text += "ALL EDITION ARE INCOMPLETE";
+        } else {
+            text += "List of complete Editions:\n";
+            for (int i = 0; i < completeEditions.length; i++) {
+                text += completeEditions[i].getName();
+                text += "\n";
+            }
+        }
+        return text;
+    }
+
+    public String getEditionsInRange(LocalDate startDate, LocalDate endDate) {
+        LocalDate currentDate = LocalDate.now();
+
+        if (startDate == null || endDate == null || startDate.isBefore(currentDate) || startDate.isAfter(endDate)) {
+            throw new IllegalArgumentException("Invalid date range.");
+        }
+
+        String text = "";
+
+        for (int i = 0; i < this.numberOfEditions; i++) {
+            LocalDate editionStartDate = this.editions[i].getStart();
+            LocalDate editionEndDate = this.editions[i].getEnd();
+            if ((editionStartDate.isEqual(startDate) || editionStartDate.isAfter(startDate))
+                    && (editionEndDate.isEqual(endDate) || editionEndDate.isBefore(endDate))) {
+                text += "Edition Name: " + this.editions[i].getName() + "\n";
+                text += "Start Date: " + editionStartDate + "\n";
+                text += "End Date: " + editionEndDate + "\n";
+                text += "\n";
             }
         }
 
