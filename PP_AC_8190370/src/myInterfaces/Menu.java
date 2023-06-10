@@ -60,4 +60,6 @@ public interface Menu {
     public void userRemoveParticipantFromProject();
     
     public void projectInformation();
+    
+    public void listTasksAndStudentsWithSubmissions();
 }

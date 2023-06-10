@@ -195,7 +195,7 @@ public class MyEdition implements Edition {
                     projectModel.getMaximumNumberOfStudents(),
                     projectModel.getMaximumNumberOfPartners(),
                     projectModel.getMaximumNumberOfFacilitators(),
-                    tasks.length,
+                    tasks.length*2,
                     tasks
             );
 

@@ -2,8 +2,7 @@
 * Nome: Luís Carlos Mendes de Oliveira
 * Número: 8190370
 * Turma: LEI12T2
-*/
-
+ */
 /**
  * @file: MyMenu.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -64,6 +63,7 @@ public class MyMenu implements Menu {
      * Displays the main menu and handles user input to navigate to different
      * menus or exit the program.
      */
+    @Override
     public void mainMenu() {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
@@ -74,7 +74,6 @@ public class MyMenu implements Menu {
             System.out.println("1- Edition Menu");
             System.out.println("2- Projects Menu");
             System.out.println("3- Participants Menu");
-            System.out.println("4 - ----");
             System.out.println("9- Lists AND Reports");
             System.out.println("0 - EXIT");
             System.out.print("Option:");
@@ -96,9 +95,6 @@ public class MyMenu implements Menu {
                     case 3:
                         this.participantsMenu();
                         break;
-                    case 4:
-                        break;
-
                     case 9:
                         this.listsAndReports();
                         break;
@@ -123,10 +119,11 @@ public class MyMenu implements Menu {
             System.out.println("\n--LISTS AND REPORTS--");
             System.out.println("1- Editions Complete Info");
             System.out.println("2- List Of IncompleteEditions");
-            System.out.println("3- List Of Incomplete Projects From Ative and Other Edition");
+            System.out.println("3- List Of Incomplete Projects From Active and Other Edition");
             System.out.println("4- Edition Progress");
             System.out.println("5- List Of Complete Editions");
             System.out.println("6- List Of Editions Between Dates");
+            System.out.println("7- List of Tasks and Students with Submissions  from given Edition");
             System.out.println("0- Back to MAIN MENU");
             System.out.print("Option:");
             try {
@@ -154,6 +151,9 @@ public class MyMenu implements Menu {
                     case 6:
                         this.listEditionsInRange();
                         break;
+                    case 7:
+                        this.listTasksAndStudentsWithSubmissions();
+                        break;
                     default:
                         System.out.println("Invalid Option");
                 }
@@ -169,6 +169,7 @@ public class MyMenu implements Menu {
      * Displays the projects menu and handles user input to perform specific
      * actions.
      */
+    @Override
     public void projectsMenu() {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
@@ -214,6 +215,7 @@ public class MyMenu implements Menu {
      * Displays the editions menu and handles user input to perform specific
      * actions.
      */
+    @Override
     public void editionsMenu() {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
@@ -222,7 +224,7 @@ public class MyMenu implements Menu {
             System.out.println("1- Add Edition");
             System.out.println("2- Remove Edition");
             System.out.println("3- Edition Information");
-            System.out.println("4- Set Edition Ative");
+            System.out.println("4- Set Edition Active");
             System.out.println("5- Number of Projects in Edition");
             System.out.println("6- Number of Editions");
             System.out.println("0- Back to MAIN MENU");
@@ -267,6 +269,7 @@ public class MyMenu implements Menu {
      * Displays the participants menu and handles user input to perform specific
      * actions.
      */
+    @Override
     public void participantsMenu() {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
@@ -307,6 +310,7 @@ public class MyMenu implements Menu {
     /**
      * Adds a new edition to the management system.
      */
+    @Override
     public void addEditionToManagement() {
 
         System.out.println("\n--ADD EDITION--");
@@ -339,6 +343,7 @@ public class MyMenu implements Menu {
     /**
      * Adds a project to an edition.
      */
+    @Override
     public void userAddProjectToEdition() {
         Scanner scan = new Scanner(System.in);
 
@@ -369,6 +374,7 @@ public class MyMenu implements Menu {
      * Displays the edition progress based on the edition name entered by the
      * user.
      */
+    @Override
     public void userGetEditionProgress() {
         Scanner scan = new Scanner(System.in);
 
@@ -389,10 +395,11 @@ public class MyMenu implements Menu {
      * Displays the list of incomplete projects from the active edition and
      * other editions based on the edition name entered by the user.
      */
+    @Override
     public void getListOfIncompleteProjectsFromEditions() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("\n--GET LIST OF INCOMPLETE PROJECTS FROM ATIVE EDITION AND OTHER EDITION--");
+        System.out.println("\n--GET LIST OF INCOMPLETE PROJECTS FROM ACTIVE EDITION AND OTHER EDITION--");
 
         System.out.print("Enter edition name: ");
         String editionName = scan.nextLine();
@@ -408,6 +415,7 @@ public class MyMenu implements Menu {
     /**
      * Removes an edition from the management system.
      */
+    @Override
     public void userRemoveEdition() {
         Scanner scan = new Scanner(System.in);
 
@@ -428,6 +436,7 @@ public class MyMenu implements Menu {
      * Prints the information of an edition based on the edition name entered by
      * the user.
      */
+    @Override
     public void userPrintEditionInfo() {
         Scanner scan = new Scanner(System.in);
 
@@ -447,6 +456,7 @@ public class MyMenu implements Menu {
     /**
      * Sets the active edition based on the edition name entered by the user.
      */
+    @Override
     public void userSetActiveEdition() {
         Scanner scan = new Scanner(System.in);
 
@@ -547,43 +557,44 @@ public class MyMenu implements Menu {
     /**
      * Adds a submission to a project based on the input from the user.
      */
+    @Override
     public void userAddSubmissionToProject() {
-        Scanner scan = new Scanner(System.in);
+        try {
+            Scanner scan = new Scanner(System.in);
 
-        System.out.println("\n--ADD SUBMISSION TO PROJECT--");
+            System.out.println("\n--ADD SUBMISSION TO PROJECT--");
 
-        System.out.print("Enter project name: ");
-        String projectName = scan.nextLine();
+            System.out.print("Enter project name: ");
+            String projectName = scan.nextLine();
 
-        System.out.print("Enter task name: ");
-        String taskName = scan.nextLine();
+            System.out.print("Enter task name: ");
+            String taskName = scan.nextLine();
 
-        System.out.print("Enter Student email: ");
-        String studentEmail = scan.nextLine();
+            System.out.print("Enter Student email: ");
+            String studentEmail = scan.nextLine();
 
-        Edition targetEdition = this.myEditionManager.getActiveEdition();
+            Edition targetEdition = this.myEditionManager.getActiveEdition();
 
-        Project targetProject = targetEdition.getProject(projectName);
+            Project targetProject = targetEdition.getProject(projectName);
 
-        Participant participant = targetProject.getParticipant(studentEmail);
+            Participant participant = targetProject.getParticipant(studentEmail);
 
-        if (participant instanceof Student) {
-            Student student = (Student) participant;
+            if (participant instanceof Student) {
+                Student student = (Student) participant;
 
-            System.out.print("Enter submission text: ");
-            String submissionText = scan.nextLine();
+                System.out.print("Enter submission text: ");
+                String submissionText = scan.nextLine();
 
-            // Create a new Submission
-            Submission submission = new MySubmission(LocalDateTime.now(), student, submissionText);
+                // Create a new Submission
+                Submission submission = new MySubmission(LocalDateTime.now(), student, submissionText);
 
-            try {
                 this.myEditionManager.addSubmissionToProject(projectName, taskName, submission);
                 System.out.println("Submission added successfully.");
-            } catch (IllegalArgumentException e) {
-                System.out.println(e.getMessage()); // Exibe a mensagem de erro personalizada
+            } else {
+                System.out.println("The participant with email " + studentEmail + " is not a student.");
             }
-        } else {
-            System.out.println("The participant with email " + studentEmail + " is not a student.");
+        } catch (IllegalArgumentException e) {
+            System.out.println(e.getMessage()); // Exibe a mensagem de erro personalizada
         }
     }
 
@@ -646,6 +657,7 @@ public class MyMenu implements Menu {
      * Gets the number of projects in an edition based on the edition name
      * entered by the user.
      */
+    @Override
     public void getEditionProjectsNumber() {
         Scanner scan = new Scanner(System.in);
 
@@ -667,6 +679,7 @@ public class MyMenu implements Menu {
      * Gets the number of editions in the management system and displays it to
      * the user.
      */
+    @Override
     public void userGetNumberOfEditions() {
         int temp = this.myEditionManager.getNumberOfEditions();
 
@@ -681,6 +694,7 @@ public class MyMenu implements Menu {
     /**
      * Adds a participant to a project based on the input from the user.
      */
+    @Override
     public void userAddParticipantToProject() {
         Scanner scan = new Scanner(System.in);
 
@@ -723,6 +737,7 @@ public class MyMenu implements Menu {
      * Lists the editions within a specified date range based on the input from
      * the user.
      */
+    @Override
     public void listEditionsInRange() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter the start date (yyyy-mm-dd):");
@@ -822,7 +837,7 @@ public class MyMenu implements Menu {
     public void userRemoveParticipantFromProject() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.print("Enter the name of the project from Ative Editon to which you want to add the participant: ");
+        System.out.print("Enter the name of the project from Active Editon to which you want to add the participant: ");
         String projectName = scan.nextLine();
 
         System.out.print("Enter the email of the participant to which you want to remove: ");
@@ -837,8 +852,8 @@ public class MyMenu implements Menu {
     }
 
     /**
-     * Displays information about a specific project in an edition. 
-     * user enters the project name and edition name.
+     * Displays information about a specific project in an edition. user enters
+     * the project name and edition name.
      */
     @Override
     public void projectInformation() {
@@ -856,5 +871,27 @@ public class MyMenu implements Menu {
         } catch (IllegalArgumentException e) {
             System.out.println("An error occurred: " + e.getMessage());
         }
+    }
+
+    /**
+     * User enters the name of a project and edition, and then lists the tasks
+     * and students with submissions for that project and edition.
+     */
+    @Override
+    public void listTasksAndStudentsWithSubmissions() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("Enter the name of the project: ");
+        String projectName = scan.nextLine();
+
+        System.out.print("Enter the edition name: ");
+        String editionName = scan.nextLine();
+
+        try {
+            System.out.println(this.myEditionManager.getTasksAndStudentsWithSubmissions(projectName, editionName));
+        } catch (IllegalArgumentException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+
     }
 }

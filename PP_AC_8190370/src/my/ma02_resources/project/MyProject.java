@@ -2,8 +2,7 @@
 * Nome: Luís Carlos Mendes de Oliveira
 * Número: 8190370
 * Turma: LEI12T2
-*/
-
+ */
 /**
  * @file: MyProject.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -78,15 +77,20 @@ public class MyProject implements Project {
         this.maximumNumberOfFacilitators = maximumNumberOfFacilitators;
 
         this.participants = new Participant[this.maximumNumberOfParticipants];
-        this.tasks = tasks;
-        //set maximum to double of tasks
-        this.maximumNumberOfTasks = tasks.length * 2;
+
+        // tasksa array with maximumNumberOfTasks
+        this.tasks = new Task[maximumNumberOfTasks];
+        // copy tasks to array
+        for (int i = 0; i < tasks.length; i++) {
+            this.tasks[i] = tasks[i];
+        }
+
         this.numberOfTasks = tasks.length;
+        this.maximumNumberOfTasks = maximumNumberOfTasks;
         this.numberOfParticipants = 0;
         this.numberOfStudents = 0;
         this.numberOfPartners = 0;
         this.numberOfFacilitators = 0;
-
     }
 
     /**

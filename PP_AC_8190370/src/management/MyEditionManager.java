@@ -2,9 +2,7 @@
 * Nome: Luís Carlos Mendes de Oliveira
 * Número: 8190370
 * Turma: LEI12T2
-*/
-
-
+ */
 /**
  * @file: MyEditionManager.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -424,12 +422,14 @@ public class MyEditionManager implements EditionManager {
                 totalTasks += tasks.length;
 
                 for (int j = 0; j < tasks.length; j++) {
-                    int taskSubmissions = tasks[j].getNumberOfSubmissions();
-                    totalSubmissions += taskSubmissions;
-                    if (taskSubmissions > 0) {
-                        tasksWithSubmissions++;
-                    } else {
-                        hasTaskWithoutSubmission = true;
+                    if (tasks[j] != null) {
+                        int taskSubmissions = tasks[j].getNumberOfSubmissions();
+                        totalSubmissions += taskSubmissions;
+                        if (taskSubmissions > 0) {
+                            tasksWithSubmissions++;
+                        } else {
+                            hasTaskWithoutSubmission = true;
+                        }
                     }
                 }
 
@@ -880,6 +880,60 @@ public class MyEditionManager implements EditionManager {
             }
         } else {
             text += "No tasks exist for this project.\n";
+        }
+
+        return text;
+    }
+
+    /**
+     * returns the tasks and students with submissions for a specific project
+     * and edition.
+     *
+     * @param projectName The name of the project.
+     * @param editionName The name of the edition.
+     * @return A string containing the tasks and students with submissions. If
+     * no tasks are found for the project, a corresponding message is returned.
+     * @throws IllegalArgumentException if either the edition name or project
+     * name is null or empty.
+     */
+    @Override
+    public String getTasksAndStudentsWithSubmissions(String projectName, String editionName) {
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
+        checkStringValidity(projectName, "Project name can't be null or empty.");
+
+        Edition targetEdition = getEdition(editionName);
+
+        Project targetProject = targetEdition.getProject(projectName);
+
+        Task[] tasks = targetProject.getTasks();
+        if (tasks == null || targetProject.getNumberOfTasks() == 0) {
+            return "No tasks found for project: " + projectName;
+        }
+
+        String text = "Edition " + editionName + " Project: " + projectName + " Progress:\n";
+
+        for (int i = 0; i < tasks.length; i++) {
+            if (tasks[i] == null) {
+                continue;
+            }
+
+            int numberOfSubmissions = tasks[i].getNumberOfSubmissions();
+            if (numberOfSubmissions > 0) {
+                text += "Task " + tasks[i].getTitle() + " has " + numberOfSubmissions + " submissions by:\n";
+
+                Submission[] submissions = tasks[i].getSubmissions();
+                if (submissions == null) {
+                    continue;
+                }
+
+                for (int j = 0; j < submissions.length; j++) {
+                    if (submissions[j] == null || submissions[j].getStudent() == null) {
+                        continue;
+                    }
+
+                    text += "   Student: " + submissions[j].getStudent().getName() + "\n";
+                }
+            }
         }
 
         return text;

@@ -79,4 +79,6 @@ public interface EditionManager {
     public String listOfCompleteEditions();
     
     public String getProjectInformation(String projectName, String editionName);
+    
+    public String getTasksAndStudentsWithSubmissions(String projectName, String editionName);
 }
