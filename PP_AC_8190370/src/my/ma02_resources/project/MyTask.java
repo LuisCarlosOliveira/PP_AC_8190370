@@ -1,3 +1,9 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: MyTask.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -173,7 +179,7 @@ public class MyTask implements Task {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || !(obj instanceof MyTask)) {
             return false;
         }
         MyTask temp = (MyTask) obj;

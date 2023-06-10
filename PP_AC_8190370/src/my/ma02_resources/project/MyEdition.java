@@ -1,11 +1,17 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: MyEdition.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief: This file contains the implementation of the Edition class.
- * MyEdition is a concrete implementation of the Edition interface.
- * It represents an Edition of a Challenge Based Learning .
- * 
+ * @brief: This file contains the implementation of the Edition class. MyEdition
+ * is a concrete implementation of the Edition interface. It represents an
+ * Edition of a Challenge Based Learning .
+ *
  */
 package my.ma02_resources.project;
 
@@ -23,7 +29,6 @@ import ma02_resources.project.Project;
 import ma02_resources.project.Status;
 import ma02_resources.project.Task;
 
-
 public class MyEdition implements Edition {
 
     private String name;
@@ -34,12 +39,12 @@ public class MyEdition implements Edition {
     private int numberOfProjects;
     private final static int SIZE = 10;
 
-    
     /**
      * Constructs a MyEdition object with the specified Edition information
-     * @param name       Edition name
+     *
+     * @param name Edition name
      * @param start Edition starting date
-     * @param projectTemplate       project Template
+     * @param projectTemplate project Template
      */
     public MyEdition(String name, LocalDate start, String projectTemplate) {
         if (name == null || name.isEmpty()) {
@@ -141,13 +146,14 @@ public class MyEdition implements Edition {
     /**
      * Adds a project to the edition. The project is created from the template.
      *
-     * @param name        The name of the project.
+     * @param name The name of the project.
      * @param description The description of the project.
-     * @param tags        The tags of the project.
-     * @throws IOException        if the project template is not found.
-     * @throws ParseException     if the project template is not valid.
-     * @throws IllegalArgumentException if the project name is null or empty, if the project already exists,
-     *                                  if the description is null or empty, or if the tags are null or empty.
+     * @param tags The tags of the project.
+     * @throws IOException if the project template is not found.
+     * @throws ParseException if the project template is not valid.
+     * @throws IllegalArgumentException if the project name is null or empty, if
+     * the project already exists, if the description is null or empty, or if
+     * the tags are null or empty.
      */
     @Override
     public void addProject(String name, String description, String[] tags) throws IOException, ParseException {
@@ -186,9 +192,9 @@ public class MyEdition implements Edition {
                     name,
                     description,
                     tags,
-                    projectModel.getMaximumNumberOfFacilitators(),
                     projectModel.getMaximumNumberOfStudents(),
                     projectModel.getMaximumNumberOfPartners(),
+                    projectModel.getMaximumNumberOfFacilitators(),
                     tasks.length,
                     tasks
             );
@@ -205,7 +211,8 @@ public class MyEdition implements Edition {
      * Removes a project from the edition.
      *
      * @param projectName The name of the project.
-     * @throws IllegalArgumentException if the project name is null or empty, or if the project does not exist.
+     * @throws IllegalArgumentException if the project name is null or empty, or
+     * if the project does not exist.
      */
     @Override
     public void removeProject(String projectName) {
@@ -229,7 +236,8 @@ public class MyEdition implements Edition {
      *
      * @param name The name of the project.
      * @return The project.
-     * @throws IllegalArgumentException if the project name is null or empty, or if the project does not exist.
+     * @throws IllegalArgumentException if the project name is null or empty, or
+     * if the project does not exist.
      */
     @Override
     public Project getProject(String projectName) {
@@ -350,7 +358,7 @@ public class MyEdition implements Edition {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof MyEdition)) {
+        if (obj == null || !(obj instanceof MyEdition)) {
             return false;
         }
         MyEdition temp = (MyEdition) obj;

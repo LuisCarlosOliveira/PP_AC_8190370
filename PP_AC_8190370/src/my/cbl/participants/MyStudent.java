@@ -1,3 +1,10 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
+
 /**
  * @file MyStudent.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>

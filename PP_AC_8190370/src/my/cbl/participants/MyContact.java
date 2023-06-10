@@ -1,16 +1,21 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file MyContact.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- * @date 
+ * @date
  * @brief This file contains the implementation of the MyContact class.
- * MyContact is a concrete implementation of the Contact interface.
- * It represents a contact with various fields such as city, country, phone, etc.
- * 
+ * MyContact is a concrete implementation of the Contact interface. It
+ * represents a contact with various fields such as city, country, phone, etc.
+ *
  */
 package my.cbl.participants;
 
 import ma02_resources.participants.Contact;
-
 
 public class MyContact implements Contact {
 
@@ -23,6 +28,7 @@ public class MyContact implements Contact {
 
     /**
      * Constructs a MyContact object with the specified contact information.
+     *
      * @param city the city of the contact
      * @param country the country of the contact
      * @param phone the phone number of the contact
@@ -98,11 +104,10 @@ public class MyContact implements Contact {
     public String getPhone() {
         return this.phone;
     }
-    
-    
-     /**
-     * This method is used to compare two Contacts. Two Contacts are
-     * equal if they have the same info.
+
+    /**
+     * This method is used to compare two Contacts. Two Contacts are equal if
+     * they have the same info.
      *
      * @param obj the object to compare.
      * @return true if the objects are equal, false otherwise.
@@ -112,7 +117,7 @@ public class MyContact implements Contact {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || !(obj instanceof MyContact)) {
             return false;
         }
         MyContact temp = (MyContact) obj;
@@ -123,7 +128,6 @@ public class MyContact implements Contact {
                 && this.state.equals(temp.state)
                 && this.street.equals(temp.street)
                 && this.zipCode.equals(temp.zipCode);
-
     }
 
     /**

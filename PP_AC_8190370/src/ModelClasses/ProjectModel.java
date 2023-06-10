@@ -1,3 +1,9 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: ProjectModel.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -12,10 +18,13 @@ public class ProjectModel {
 
     @SerializedName("number_of_facilitors")
     private int maximumNumberOfFacilitators;
+    
     @SerializedName("number_of_students")
     private int maximumNumberOfStudents;
+    
     @SerializedName("number_of_partners")
     private int maximumNumberOfPartners;
+    
     @SerializedName("tasks")
     private TaskModel[] tasks;
 

@@ -1,10 +1,17 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
+
 /**
  * @file: MyEditionManager.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
  * @brief: This file contains the implementation of the MyEditionManager class.
- * MyEditionManager is a concrete implementation of the EditionManager interface.
- * It represents a Edition Manager.
+ * MyEditionManager is a concrete implementation of the EditionManager
+ * interface. It represents a Edition Manager.
  */
 package management;
 
@@ -24,7 +31,6 @@ import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
 import myInterfaces.EditionManager;
 
-
 public class MyEditionManager implements EditionManager {
 
     private Edition[] editions;
@@ -32,20 +38,18 @@ public class MyEditionManager implements EditionManager {
     private int activeEditionIndex;
     private static final int SIZE = 10;
 
-   
-
     public MyEditionManager() {
         this.editions = new Edition[SIZE];
         this.numberOfEditions = 0;
         this.activeEditionIndex = -1;
     }
-    
+
     /**
      * Getter method for Editions
      *
      * @return the Editions
      */
-     public Edition[] getEditions() {
+    public Edition[] getEditions() {
         return this.editions;
     }
 
@@ -227,7 +231,7 @@ public class MyEditionManager implements EditionManager {
         for (int i = 0; i < this.numberOfEditions; i++) {
             Project[] tempProjects = editions[i].getProjects();
             for (int j = 0; j < tempProjects.length; j++) {
-                if (!tempProjects[j].isCompleted()) {
+                if (tempProjects[j] != null && !tempProjects[j].isCompleted()) {
                     incompleteEditionsCount++;
                     break;
                 }
@@ -240,7 +244,7 @@ public class MyEditionManager implements EditionManager {
         for (int i = 0; i < this.numberOfEditions; i++) {
             Project[] tempProjects = editions[i].getProjects();
             for (int j = 0; j < tempProjects.length; j++) {
-                if (!tempProjects[j].isCompleted()) {
+                if (tempProjects[j] != null && !tempProjects[j].isCompleted()) {
                     incompleteEditions[count++] = editions[i];
                     break;
                 }
@@ -259,7 +263,6 @@ public class MyEditionManager implements EditionManager {
      * @return An array of incomplete projects from the active edition and the
      * specified edition.
      */
-    @Override
     public Project[] getIncompleteProjectsFromEditions(String editionName) {
         checkStringValidity(editionName, "Edition name can't be null or empty.");
 
@@ -273,14 +276,14 @@ public class MyEditionManager implements EditionManager {
         int incompleteProjectsCount = 0;
         Project[] activeEditionProjects = activeEdition.getProjects();
         for (int i = 0; i < activeEdition.getNumberOfProjects(); i++) {
-            if (!activeEditionProjects[i].isCompleted()) {
+            if (activeEditionProjects[i] != null && !activeEditionProjects[i].isCompleted()) {
                 incompleteProjectsCount++;
             }
         }
 
         Project[] specifiedEditionProjects = specifiedEdition.getProjects();
         for (int i = 0; i < specifiedEdition.getNumberOfProjects(); i++) {
-            if (!specifiedEditionProjects[i].isCompleted()) {
+            if (specifiedEditionProjects[i] != null && !specifiedEditionProjects[i].isCompleted()) {
                 incompleteProjectsCount++;
             }
         }
@@ -289,13 +292,13 @@ public class MyEditionManager implements EditionManager {
         int projectCount = 0;
 
         for (int i = 0; i < activeEdition.getNumberOfProjects(); i++) {
-            if (!activeEditionProjects[i].isCompleted()) {
+            if (activeEditionProjects[i] != null && !activeEditionProjects[i].isCompleted()) {
                 incompleteProjects[projectCount++] = activeEditionProjects[i];
             }
         }
 
         for (int i = 0; i < specifiedEdition.getNumberOfProjects(); i++) {
-            if (!specifiedEditionProjects[i].isCompleted()) {
+            if (specifiedEditionProjects[i] != null && !specifiedEditionProjects[i].isCompleted()) {
                 incompleteProjects[projectCount++] = specifiedEditionProjects[i];
             }
         }
@@ -394,7 +397,15 @@ public class MyEditionManager implements EditionManager {
 
         Edition targetEdition = getEdition(editionName);
 
+        if (targetEdition == null) {
+            return "No edition found with the provided name.";
+        }
+
         Project[] projects = targetEdition.getProjects();
+
+        if (projects == null) {
+            return "No projects found for the edition.";
+        }
 
         int totalTasks = 0;
         int totalSubmissions = 0;
@@ -402,20 +413,29 @@ public class MyEditionManager implements EditionManager {
         int projectsWithTasksWithoutSubmissions = 0;
 
         for (int i = 0; i < projects.length; i++) {
-            boolean hasTaskWithoutSubmission = false;
-            Task[] tasks = projects[i].getTasks();
-            totalTasks += tasks.length;
-            for (int j = 0; j < tasks.length; j++) {
-                int taskSubmissions = tasks[j].getNumberOfSubmissions();
-                totalSubmissions += taskSubmissions;
-                if (taskSubmissions > 0) {
-                    tasksWithSubmissions++;
-                } else {
-                    hasTaskWithoutSubmission = true;
+            if (projects[i] != null) {
+                boolean hasTaskWithoutSubmission = false;
+                Task[] tasks = projects[i].getTasks();
+
+                if (tasks == null) {
+                    continue;  // skip to the next iteration of the for loop
                 }
-            }
-            if (hasTaskWithoutSubmission) {
-                projectsWithTasksWithoutSubmissions++;
+
+                totalTasks += tasks.length;
+
+                for (int j = 0; j < tasks.length; j++) {
+                    int taskSubmissions = tasks[j].getNumberOfSubmissions();
+                    totalSubmissions += taskSubmissions;
+                    if (taskSubmissions > 0) {
+                        tasksWithSubmissions++;
+                    } else {
+                        hasTaskWithoutSubmission = true;
+                    }
+                }
+
+                if (hasTaskWithoutSubmission) {
+                    projectsWithTasksWithoutSubmissions++;
+                }
             }
         }
 
@@ -585,7 +605,9 @@ public class MyEditionManager implements EditionManager {
 
         String text = "";
 
-        if (incompleteEditions.length == 0) {
+        if (this.numberOfEditions == 0) {
+            text += "NO EDITION ADD";
+        } else if (incompleteEditions.length == 0) {
             text += "ALL EDITION ARE COMPLETE";
         } else {
 
@@ -696,6 +718,9 @@ public class MyEditionManager implements EditionManager {
                 text += "Project Name: " + project.getName() + "\n"
                         + "Project Description: " + project.getDescription() + "\n"
                         + "Number of Participants: " + project.getNumberOfParticipants() + "\n"
+                        + "Number of Facilitators: " + project.getNumberOfFacilitators() + "\n"
+                        + "Number of Partners: " + project.getNumberOfPartners() + "\n"
+                        + "Number of Students: " + project.getNumberOfStudents() + "\n"
                         + "Number of Tasks: " + project.getNumberOfTasks() + "\n"
                         + "---------------------------------\n";
             }
@@ -733,7 +758,7 @@ public class MyEditionManager implements EditionManager {
             boolean isComplete = true;
             Project[] tempProjects = editions[i].getProjects();
             for (int j = 0; j < tempProjects.length; j++) {
-                if (!tempProjects[j].isCompleted()) {
+                if (tempProjects[j] == null || !tempProjects[j].isCompleted()) {
                     isComplete = false;
                     break;
                 }//edition is only complete if all project are complete
@@ -750,7 +775,7 @@ public class MyEditionManager implements EditionManager {
             boolean isComplete = true;
             Project[] tempProjects = editions[i].getProjects();
             for (int j = 0; j < tempProjects.length; j++) {
-                if (!tempProjects[j].isCompleted()) {
+                if (tempProjects[j] == null || !tempProjects[j].isCompleted()) {
                     isComplete = false;
                     break;
                 }
@@ -767,12 +792,15 @@ public class MyEditionManager implements EditionManager {
      *
      * @return A string representation of the complete editions.
      */
+    @Override
     public String listOfCompleteEditions() {
         Edition[] completeEditions = this.getCompleteEditions();
 
         String text = "";
 
-        if (completeEditions.length == 0) {
+        if (this.numberOfEditions == 0) {
+            text += "NO EDITIONS ADDED";
+        } else if (completeEditions.length == 0) {
             text += "ALL EDITION ARE INCOMPLETE";
         } else {
             text += "List of complete Editions:\n";
@@ -784,6 +812,14 @@ public class MyEditionManager implements EditionManager {
         return text;
     }
 
+    /**
+     * This method retrieves all complete editions. An edition is considered
+     * complete when all of its projects are completed.
+     *
+     * @return A list of completed editions. If no editions are completed, an
+     * empty list is returned.
+     */
+    @Override
     public String getEditionsInRange(LocalDate startDate, LocalDate endDate) {
         LocalDate currentDate = LocalDate.now();
 
@@ -803,6 +839,47 @@ public class MyEditionManager implements EditionManager {
                 text += "End Date: " + editionEndDate + "\n";
                 text += "\n";
             }
+        }
+
+        return text;
+    }
+
+    /**
+     * Returns information about a specific project in an edition.
+     *
+     * @param projectName The name of the project.
+     * @param editionName The name of the edition.
+     * @return A string containing the project name and the titles of its tasks
+     * (if any).
+     * @throws IllegalArgumentException If either the project name or the
+     * edition name is null or empty, or if the project does not exist in the
+     * specified edition.
+     */
+    @Override
+    public String getProjectInformation(String projectName, String editionName) {
+        checkStringValidity(editionName, "Edition name can't be null or empty.");
+        checkStringValidity(projectName, "Project name can't be null or empty.");
+
+        Edition targetEdition = getEdition(editionName);
+        Project targetProject = targetEdition.getProject(projectName);
+
+        if (targetProject == null) {
+            throw new IllegalArgumentException("The project with the name " + projectName + " does not exist in the edition " + editionName + ".");
+        }
+
+        String text = "Project Name: " + targetProject.getName() + "\n";
+
+        // Get all the tasks in the project
+        Task[] tasks = targetProject.getTasks();
+        if (targetProject.getNumberOfTasks() > 0) {
+            text += "Tasks:\n";
+            for (int i = 0; i < tasks.length; i++) {
+                text += "\t" + tasks[i].getTitle() + "\n";
+                text += "\t" + tasks[i].getStart() + "\n";
+                text += "\t" + tasks[i].getEnd() + "\n";
+            }
+        } else {
+            text += "No tasks exist for this project.\n";
         }
 
         return text;

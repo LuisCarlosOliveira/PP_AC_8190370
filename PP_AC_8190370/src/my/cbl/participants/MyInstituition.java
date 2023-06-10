@@ -1,19 +1,23 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: MyInstituition.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
  * @brief: This file contains the implementation of the MyInstituition class.
- * MyInstituition is a concrete implementation of the Instituition interface.
- * It represents an institution participating in the CBL.
- * 
+ * MyInstituition is a concrete implementation of the Instituition interface. It
+ * represents an institution participating in the CBL.
+ *
  */
 package my.cbl.participants;
-
 
 import ma02_resources.participants.Contact;
 import ma02_resources.participants.Instituition;
 import ma02_resources.participants.InstituitionType;
-
 
 public class MyInstituition implements Instituition {
 
@@ -175,14 +179,14 @@ public class MyInstituition implements Instituition {
      * @return true if the objects are equal, false otherwise.
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || this.getClass() != o.getClass()) {
+        if (obj == null || !(obj instanceof MyInstituition)) {
             return false;
         }
-        MyInstituition temp = (MyInstituition) o;
+        MyInstituition temp = (MyInstituition) obj;
 
         return this.name.equals(temp.name);
     }
@@ -199,7 +203,7 @@ public class MyInstituition implements Instituition {
         String websiteString = (this.website != null) ? this.website : "None";
 
         return "Instituition:\n"
-                + "\nname='" + name 
+                + "\nname='" + name
                 + "\nemail='" + email
                 + "\ntype=" + type
                 + "\ncontact=" + contactString

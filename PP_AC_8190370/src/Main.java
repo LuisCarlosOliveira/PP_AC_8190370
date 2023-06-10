@@ -1,3 +1,8 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
 
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
@@ -6,6 +11,7 @@ import ma02_resources.project.Edition;
 import management.MyEditionManager;
 import management.MyMenu;
 import my.ma02_resources.project.MyEdition;
+import myInterfaces.Menu;
 
 /**
  * @file: 
@@ -17,7 +23,7 @@ import my.ma02_resources.project.MyEdition;
 public class Main {
 
     public static void main(String[] args) {
-        MyMenu menu = new MyMenu();
+        Menu menu = new MyMenu();
         
         menu.mainMenu();
          

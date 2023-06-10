@@ -1,0 +1,50 @@
+{
+    "number_of_facilitors": 3,
+    "number_of_students": 6,
+    "number_of_partners": 20,
+    "tasks": [
+      {
+        "title": "Long list of Stakeholder",
+        "description": "The team's initial goal is to identify up to 10 stakeholder/user groups relevant to the project topic. Understanding key stakeholders and user groups is fundamental to generating innovative ideas and tackling complex problems, so it's important to have a comprehensive list.",
+        "start_at": 0,
+        "duration": 14
+      },
+      {
+        "title": "Short list of target groups",
+        "description": "Your team should discuss and select three target groups from the long list of previously identified stakeholder/user groups. It's important to be specific and avoid general categories. Once you have created your shortlist, please send it from the dedicated portal.",
+        "start_at": 0,
+        "duration": 14
+      },
+      {
+        "title": "Insights",
+        "description": "In the field of design research, there is an increasing focus on understanding the current state of project topics and the underlying reasons behind trends and people's behavior. Use various research methods to collect and gather relevant insights.",
+        "start_at": 15,
+        "duration": 14
+      },
+      {
+        "title": "Empathy maps and Synthesis",
+        "description": "Once the integration is complete, submit the most relevant results through her next submission. Empathy maps and design insights. Empathy maps are submissions that allow you to share insights about different audiences of your choice.",
+        "start_at": 15,
+        "duration": 14
+      },
+      {
+        "title": "PESTLE report",
+        "description": "The report consists of two parts: 1) macro-level analysis (politics, economy, society, technology, law, environment) by PESTLE framework and 2) micro-level analysis by original interpretation.",
+        "start_at": 30,
+        "duration": 21
+      },
+      {
+        "title": "Signals - 1st set",
+        "description": "Signals are observations of all shapes and sizes about the world. Signals help you understand the most important changes in your project's theme and set of outcomes, and ultimately interpret their impact.",
+        "start_at": 52,
+        "duration": 14
+      },
+      {
+        "title": "Future Questions",
+        "description": "When working on the future, we tend to stick to the most feasible or possible future. The point of this challenge, however, is to break and go beyond the conventional, business-as-usual mindset. Create What if...? and How...? questions based on your current phase of work.",
+        "start_at": 67,
+        "duration": 14
+      }
+    ]
+  }
+  

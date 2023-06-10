@@ -1,13 +1,18 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: MyMenu.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief: This file contains the implementation of the MyMenu class.
- * MyEdition is a concrete implementation of the Menu interface.
- * It represents the menu interface for interacting with
- * the CBL management system. It provides options to navigate through various
- * menus and perform actions related to editions, projects, participants, and
- * lists/reports.
+ * @brief: This file contains the implementation of the MyMenu class. MyEdition
+ * is a concrete implementation of the Menu interface. It represents the menu
+ * interface for interacting with the CBL management system. It provides options
+ * to navigate through various menus and perform actions related to editions,
+ * projects, participants, and lists/reports.
  */
 package management;
 
@@ -28,8 +33,11 @@ import ma02_resources.participants.Student;
 import ma02_resources.project.Edition;
 import ma02_resources.project.Project;
 import ma02_resources.project.Submission;
+import ma02_resources.project.Task;
 import ma02_resources.project.exceptions.IllegalNumberOfParticipantType;
+import ma02_resources.project.exceptions.IllegalNumberOfTasks;
 import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
+import ma02_resources.project.exceptions.TaskAlreadyInProject;
 import my.cbl.participants.MyContact;
 import my.cbl.participants.MyFacilitator;
 import my.cbl.participants.MyInstituition;
@@ -37,11 +45,13 @@ import my.cbl.participants.MyPartner;
 import my.cbl.participants.MyStudent;
 import my.ma02_resources.project.MyEdition;
 import my.ma02_resources.project.MySubmission;
+import my.ma02_resources.project.MyTask;
+import myInterfaces.EditionManager;
 import myInterfaces.Menu;
 
 public class MyMenu implements Menu {
 
-    private MyEditionManager myEditionManager;
+    private EditionManager myEditionManager;
 
     /**
      * Creates a new instance of `MyMenu` with a `MyEditionManager` object.
@@ -111,12 +121,12 @@ public class MyMenu implements Menu {
         Scanner scan = new Scanner(System.in);
         while (runMenu) {
             System.out.println("\n--LISTS AND REPORTS--");
-            System.out.println("1- List of Edition Names");
+            System.out.println("1- Editions Complete Info");
             System.out.println("2- List Of IncompleteEditions");
             System.out.println("3- List Of Incomplete Projects From Ative and Other Edition");
             System.out.println("4- Edition Progress");
             System.out.println("5- List Of Complete Editions");
-            System.out.println("5- List Of Editions Between Dates");
+            System.out.println("6- List Of Editions Between Dates");
             System.out.println("0- Back to MAIN MENU");
             System.out.print("Option:");
             try {
@@ -163,12 +173,11 @@ public class MyMenu implements Menu {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
         while (runMenu) {
-            System.out.println("\n--PROJECTS MENUS--");
+            System.out.println("\n--PROJECTS MENU--");
             System.out.println("1- Add Project To Edition");
-            System.out.println("1- Remove Project From Edition");
-            System.out.println("3- -");
-            System.out.println("4- - Progress");
-            System.out.println("5- -");
+            System.out.println("2- Remove Project From Edition");
+            System.out.println("3- Add Task To Project");
+            System.out.println("4- Project Information");
             System.out.println("0- Back to MAIN MENU");
             System.out.print("Option:");
             try {
@@ -182,7 +191,13 @@ public class MyMenu implements Menu {
                         this.userAddProjectToEdition();
                         break;
                     case 2:
-
+                        this.userRemoveProjectFromEdition();
+                        break;
+                    case 3:
+                        this.userAddTaskToProject();
+                        break;
+                    case 4:
+                        this.projectInformation();
                         break;
                     default:
                         System.out.println("Invalid Option");
@@ -203,9 +218,9 @@ public class MyMenu implements Menu {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
         while (runMenu) {
-            System.out.println("\n--EDITIONS MENUS--");
+            System.out.println("\n--EDITIONS MENU--");
             System.out.println("1- Add Edition");
-            System.out.println("1- Remove Edition");
+            System.out.println("2- Remove Edition");
             System.out.println("3- Edition Information");
             System.out.println("4- Set Edition Ative");
             System.out.println("5- Number of Projects in Edition");
@@ -256,12 +271,10 @@ public class MyMenu implements Menu {
         boolean runMenu = true;
         Scanner scan = new Scanner(System.in);
         while (runMenu) {
-            System.out.println("\n--Participants MENUS--");
+            System.out.println("\n--Participants MENU--");
             System.out.println("1- Add Submission to project");
             System.out.println("2- Add Participant To Project");
-            System.out.println("3- Projects of Participant");
-            System.out.println("4- ---");
-            System.out.println("5- -");
+            System.out.println("3- Remove Participant From Project");
             System.out.println("0- Back to MAIN MENU");
             System.out.print("Option:");
             try {
@@ -278,10 +291,7 @@ public class MyMenu implements Menu {
                         this.userAddParticipantToProject();
                         break;
                     case 3:
-                        // this.getParticipantProjects();
-                        break;
-                    case 4:
-
+                        this.userRemoveParticipantFromProject();
                         break;
                     default:
                         System.out.println("Invalid Option");
@@ -355,8 +365,9 @@ public class MyMenu implements Menu {
         }
     }
 
-     /**
-     * Displays the edition progress based on the edition name entered by the user.
+    /**
+     * Displays the edition progress based on the edition name entered by the
+     * user.
      */
     public void userGetEditionProgress() {
         Scanner scan = new Scanner(System.in);
@@ -375,7 +386,8 @@ public class MyMenu implements Menu {
     }
 
     /**
-     * Displays the list of incomplete projects from the active edition and other editions based on the edition name entered by the user.
+     * Displays the list of incomplete projects from the active edition and
+     * other editions based on the edition name entered by the user.
      */
     public void getListOfIncompleteProjectsFromEditions() {
         Scanner scan = new Scanner(System.in);
@@ -413,7 +425,8 @@ public class MyMenu implements Menu {
     }
 
     /**
-     * Prints the information of an edition based on the edition name entered by the user.
+     * Prints the information of an edition based on the edition name entered by
+     * the user.
      */
     public void userPrintEditionInfo() {
         Scanner scan = new Scanner(System.in);
@@ -431,7 +444,7 @@ public class MyMenu implements Menu {
 
     }
 
-     /**
+    /**
      * Sets the active edition based on the edition name entered by the user.
      */
     public void userSetActiveEdition() {
@@ -545,20 +558,32 @@ public class MyMenu implements Menu {
         System.out.print("Enter task name: ");
         String taskName = scan.nextLine();
 
-        // Create a new Student
-        Student student = createStudent();
+        System.out.print("Enter Student email: ");
+        String studentEmail = scan.nextLine();
 
-        System.out.print("Enter submission text: ");
-        String submissionText = scan.nextLine();
+        Edition targetEdition = this.myEditionManager.getActiveEdition();
 
-        // Create a new Submission
-        Submission submission = new MySubmission(LocalDateTime.now(), student, submissionText);
+        Project targetProject = targetEdition.getProject(projectName);
 
-        try {
-            this.myEditionManager.addSubmissionToProject(projectName, taskName, submission);
-            System.out.println("Submission added successfully.");
-        } catch (IllegalArgumentException e) {
-            System.out.println(e.getMessage()); // Exibe a mensagem de erro personalizada
+        Participant participant = targetProject.getParticipant(studentEmail);
+
+        if (participant instanceof Student) {
+            Student student = (Student) participant;
+
+            System.out.print("Enter submission text: ");
+            String submissionText = scan.nextLine();
+
+            // Create a new Submission
+            Submission submission = new MySubmission(LocalDateTime.now(), student, submissionText);
+
+            try {
+                this.myEditionManager.addSubmissionToProject(projectName, taskName, submission);
+                System.out.println("Submission added successfully.");
+            } catch (IllegalArgumentException e) {
+                System.out.println(e.getMessage()); // Exibe a mensagem de erro personalizada
+            }
+        } else {
+            System.out.println("The participant with email " + studentEmail + " is not a student.");
         }
     }
 
@@ -618,7 +643,8 @@ public class MyMenu implements Menu {
     }
 
     /**
-     * Gets the number of projects in an edition based on the edition name entered by the user.
+     * Gets the number of projects in an edition based on the edition name
+     * entered by the user.
      */
     public void getEditionProjectsNumber() {
         Scanner scan = new Scanner(System.in);
@@ -638,13 +664,14 @@ public class MyMenu implements Menu {
     }
 
     /**
-     * Gets the number of editions in the management system and displays it to the user.
+     * Gets the number of editions in the management system and displays it to
+     * the user.
      */
     public void userGetNumberOfEditions() {
         int temp = this.myEditionManager.getNumberOfEditions();
 
         if (temp != 0) {
-            System.out.println("Number of Editionsthis: " + this.myEditionManager.getNumberOfEditions());
+            System.out.println("Number of Editions: " + this.myEditionManager.getNumberOfEditions());
         } else {
             System.out.println("No editions created ");
         }
@@ -668,13 +695,13 @@ public class MyMenu implements Menu {
 
         switch (participantType) {
             case 1:
-                participant = createStudent();
+                participant = this.createStudent();
                 break;
             case 2:
-                participant = createPartner();
+                participant = this.createPartner();
                 break;
             case 3:
-                participant = createFacilitator();
+                participant = this.createFacilitator();
                 break;
             default:
                 System.out.println("Invalid option, please try again.");
@@ -687,8 +714,8 @@ public class MyMenu implements Menu {
         try {
             this.myEditionManager.addParticipantToProject(participant, projectName);
             System.out.println(participant.getName() + " was added successfully to the project " + projectName);
-        } catch (IllegalArgumentException | IllegalNumberOfParticipantType | ParticipantAlreadyInProject ex) {
-            System.out.println("An error occurred: " + ex.getMessage());
+        } catch (IllegalArgumentException | IllegalNumberOfParticipantType | ParticipantAlreadyInProject e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
     }
 
@@ -716,19 +743,118 @@ public class MyMenu implements Menu {
         }
     }
 
-    /*
-    private void getParticipantProjects() {
+    /**
+     * Removes an project from ACTIVE Edition.
+     */
+    @Override
+    public void userRemoveProjectFromEdition() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\n-- Remove PROJECT From Active EDITION --");
+
+        System.out.print("Enter project name: ");
+        String projectName = scan.nextLine();
+
+        try {
+            this.myEditionManager.removeProjectFromEdition(projectName);
+            System.out.println(projectName + " was removed successfully from active Edition");
+        } catch (IllegalArgumentException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+
+    }
+
+    /**
+     * This method is used to create a new Task object. It prompts the user to
+     * input the details for a new task, including the title, description, start
+     * date and duration. It then creates a new Task object with these details.
+     *
+     * @return Task The newly created Task object.
+     */
+    private Task createTask() {
+        Scanner sc = new Scanner(System.in);
+
+        System.out.println("Enter the task title:");
+        String title = sc.nextLine();
+
+        System.out.println("Enter the task description:");
+        String description = sc.nextLine();
+
+        System.out.println("Enter the task starting date (in the format yyyy-mm-dd):");
+        String startDateInput = sc.nextLine();
+        LocalDate startDate = LocalDate.parse(startDateInput);
+
+        System.out.println("Enter the task duration (in days):");
+        int duration = sc.nextInt();
+
+        // Create a new task with the provided details
+        Task task = new MyTask(title, description, startDate, duration);
+
+        return task;
+    }
+
+    /**
+     * This method is used to add a new Task to a specified Project. It first
+     * prompts the user to enter the name of the Project to which the Task
+     * should be added. If an error occurs during the process an exception is
+     * thrown
+     */
+    @Override
+    public void userAddTaskToProject() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("\n-- Add Task To Project From Active Edition --");
+
+        System.out.print("Enter project name: ");
+        String projectName = scan.nextLine();
+
+        Task task = this.createTask();
+
+        try {
+            this.myEditionManager.addTaskToProject(projectName, task);
+            System.out.println("Task was successfully added to project: " + projectName
+                    + " from active Edition");
+        } catch (IllegalArgumentException | IllegalNumberOfTasks | TaskAlreadyInProject e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+
+    }
+
+    @Override
+    public void userRemoveParticipantFromProject() {
         Scanner scan = new Scanner(System.in);
 
-        System.out.println("\n--Number of Projects in Edition--");
+        System.out.print("Enter the name of the project from Ative Editon to which you want to add the participant: ");
+        String projectName = scan.nextLine();
 
-        System.out.print("Enter participant email: ");
+        System.out.print("Enter the email of the participant to which you want to remove: ");
         String participantEmail = scan.nextLine();
-        
-        System.out.print("Enter edition name: ");
-        String editionName = scan.nextLine();
-        
-        
+
+        try {
+            this.myEditionManager.removeParticipantFromProject(participantEmail, projectName);
+            System.out.println(participantEmail + " was removed successfully from the Active Edition project " + projectName);
+        } catch (IllegalArgumentException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
     }
+
+    /**
+     * Displays information about a specific project in an edition. 
+     * user enters the project name and edition name.
      */
+    @Override
+    public void projectInformation() {
+        Scanner scan = new Scanner(System.in);
+
+        System.out.print("Enter the name of the project: ");
+        String projectName = scan.nextLine();
+
+        System.out.print("Enter the edition name: ");
+        String editionName = scan.nextLine();
+
+        try {
+            this.myEditionManager.getProjectInformation(projectName, editionName);
+
+        } catch (IllegalArgumentException e) {
+            System.out.println("An error occurred: " + e.getMessage());
+        }
+    }
 }

@@ -1,10 +1,15 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: Menu.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief:It provides the methods to navigate through various
- * menus and perform actions related to editions, projects, participants, and
- * lists/reports.
+ * @brief:It provides the methods to navigate through various menus and perform
+ * actions related to editions, projects, participants, and lists/reports.
  */
 package myInterfaces;
 
@@ -47,4 +52,12 @@ public interface Menu {
     public void userAddParticipantToProject();
 
     public void listEditionsInRange();
+
+    public void userRemoveProjectFromEdition();
+
+    public void userAddTaskToProject();
+    
+    public void userRemoveParticipantFromProject();
+    
+    public void projectInformation();
 }

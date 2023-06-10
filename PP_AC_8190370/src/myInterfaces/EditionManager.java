@@ -1,13 +1,20 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: EditionManager.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief
+ * @brief: interface that represents a Edition Manager
  */
 package myInterfaces;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.LocalDate;
 import ma02_resources.participants.Participant;
 import ma02_resources.participants.Student;
 import ma02_resources.project.Edition;
@@ -66,4 +73,10 @@ public interface EditionManager {
     public String printEditionInfo(String editionName);
     
     public String getAllProjectNamesFromEdition(String editionName);
+    
+    public String getEditionsInRange(LocalDate startDate, LocalDate endDate);
+    
+    public String listOfCompleteEditions();
+    
+    public String getProjectInformation(String projectName, String editionName);
 }

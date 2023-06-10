@@ -1,11 +1,17 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
 /**
  * @file: MyProject.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
  * @date
- * @brief: This file contains the implementation of the Project class.
- * MyProject is a concrete implementation of the Project interface.
- * It represents a Project of an Edition.
- * 
+ * @brief: This file contains the implementation of the Project class. MyProject
+ * is a concrete implementation of the Project interface. It represents a
+ * Project of an Edition.
+ *
  */
 package my.ma02_resources.project;
 
@@ -19,7 +25,6 @@ import ma02_resources.project.exceptions.IllegalNumberOfParticipantType;
 import ma02_resources.project.exceptions.IllegalNumberOfTasks;
 import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
-
 
 public class MyProject implements Project {
 
@@ -41,14 +46,15 @@ public class MyProject implements Project {
 
     /**
      * Constructs a MyProject object with the specified project information
-     * @param name       project name
+     *
+     * @param name project name
      * @param description project description
-     * @param tags       project tags
-     * @param maximumNumberOfStudents  project maximum Number Of Students
-     * @param maximumNumberOfPartners       project maximum Number Of Partners
-     * @param maximumNumberOfFacilitators  project maximum Number Of Facilitators
-     * @param maximumNumberOfTasks       project maximum Number Of Tasks
-     * @param tasks    project tasks
+     * @param tags project tags
+     * @param maximumNumberOfStudents project maximum Number Of Students
+     * @param maximumNumberOfPartners project maximum Number Of Partners
+     * @param maximumNumberOfFacilitators project maximum Number Of Facilitators
+     * @param maximumNumberOfTasks project maximum Number Of Tasks
+     * @param tasks project tasks
      */
     public MyProject(String name, String description, String[] tags,
             int maximumNumberOfStudents, int maximumNumberOfPartners, int maximumNumberOfFacilitators,
@@ -205,10 +211,12 @@ public class MyProject implements Project {
 
     /**
      * The method adds a participant to the project.
-     * @param p  represents a participant in a project.
-     * @throws IllegalNumberOfParticipantType - if the number of participants of 
+     *
+     * @param p represents a participant in a project.
+     * @throws IllegalNumberOfParticipantType - if the number of participants of
      * a certain type is already at the maximum.
-     * @throws ParticipantAlreadyInProject - if the participant is already in the project.
+     * @throws ParticipantAlreadyInProject - if the participant is already in
+     * the project.
      */
     @Override
     public void addParticipant(Participant p) throws IllegalNumberOfParticipantType, ParticipantAlreadyInProject {
@@ -219,7 +227,7 @@ public class MyProject implements Project {
         // check participant exists arready
         for (int i = 0; i < this.numberOfParticipants; i++) {
             if (this.participants[i] != null && this.participants[i].equals(p)) {
-                throw new ParticipantAlreadyInProject("Participant " + p.getName() 
+                throw new ParticipantAlreadyInProject("Participant " + p.getName()
                         + " already exists in the project.");
             }
         }
@@ -227,20 +235,20 @@ public class MyProject implements Project {
         // checks participant type and maximum
         if (p instanceof Student) {
             if (this.numberOfStudents == this.maximumNumberOfStudents) {
-                throw new IllegalNumberOfParticipantType("Maximum number of students reached." 
+                throw new IllegalNumberOfParticipantType("Maximum number of students reached."
                         + p.getName() + " not added");
             }
             this.numberOfStudents++;
         } else if (p instanceof Partner) {
             if (this.numberOfPartners == this.maximumNumberOfPartners) {
                 throw new IllegalNumberOfParticipantType("Maximum number of partners reached."
-                + p.getName() + " not added");
+                        + p.getName() + " not added");
             }
             numberOfPartners++;
         } else if (p instanceof Facilitator) {
             if (this.numberOfFacilitators == this.maximumNumberOfFacilitators) {
                 throw new IllegalNumberOfParticipantType("Maximum number of facilitators reached."
-                + p.getName() + " not added");
+                        + p.getName() + " not added");
             }
             this.numberOfFacilitators++;
         }
@@ -252,10 +260,12 @@ public class MyProject implements Project {
 
     /**
      * The method removes a participant from the project.
+     *
      * @param email - represents the email of the participant..
-     * @throws IllegalNumberOfParticipantType - if the number of participants of 
+     * @throws IllegalNumberOfParticipantType - if the number of participants of
      * a certain type is already at the maximum.
-     * @throws ParticipantAlreadyInProject - if the participant is already in the project.
+     * @throws ParticipantAlreadyInProject - if the participant is already in
+     * the project.
      */
     @Override
     public Participant removeParticipant(String email) {
@@ -279,14 +289,18 @@ public class MyProject implements Project {
                 return removedParticipant;
             }
         }
-        throw new IllegalArgumentException("Participant with email : " + email + 
-                " doesn't exist.");
+        throw new IllegalArgumentException("Participant with email : " + email
+                + " doesn't exist.");
     }
 
     /**
-     * The method  takes a string parameter "email" and returns a Participant object.
-     * @param email - A string representing the email of the participant to be retrieved.
-     * @return The method is returning a Participant object with the specified email
+     * The method takes a string parameter "email" and returns a Participant
+     * object.
+     *
+     * @param email - A string representing the email of the participant to be
+     * retrieved.
+     * @return The method is returning a Participant object with the specified
+     * email
      * @throws IllegalArgumentException - if the participant does not exist.
      */
     @Override
@@ -309,12 +323,13 @@ public class MyProject implements Project {
         return tags;
     }
 
-     /**
+    /**
      * This method checks if a given tag exists in a list of tags
-     * @param tag - The parameter "tag" is a String representing the tag that we 
+     *
+     * @param tag - The parameter "tag" is a String representing the tag that we
      * want to check if it exists in the array of tags.
-     * @return     A boolean value is being returned, either true or false, depending 
-     * on whether the input tag is found in the list of tags or not.
+     * @return A boolean value is being returned, either true or false,
+     * depending on whether the input tag is found in the list of tags or not.
      */
     @Override
     public boolean hasTag(String tag) {
@@ -326,11 +341,12 @@ public class MyProject implements Project {
         return false;
     }
 
-    
     /**
      * The method adds a task to the project.
+     *
      * @param task - represents a task in a project.
-     * @throws IllegalNumberOfTasks - if the number of tasks is already at the maximum.
+     * @throws IllegalNumberOfTasks - if the number of tasks is already at the
+     * maximum.
      * @throws TaskAlreadyInProject - if the task is already in the project.
      */
     @Override
@@ -351,7 +367,9 @@ public class MyProject implements Project {
 
     /**
      * The method takes a string parameter "title" and returns a Task object.
-     * @param title - A string representing the title of the task to be retrieved.
+     *
+     * @param title - A string representing the title of the task to be
+     * retrieved.
      * @return The method is returning a Task object with the specified title
      */
     @Override
@@ -377,9 +395,9 @@ public class MyProject implements Project {
     /**
      * The method checks if all tasks have at least one submission.
      *
-     * @return The method isCompleted() returns a boolean value. It returns true 
-     * if all tasks have at least one submission, and false otherwise. If the 
-     * number of tasks inserted is not equal to the number specified upon 
+     * @return The method isCompleted() returns a boolean value. It returns true
+     * if all tasks have at least one submission, and false otherwise. If the
+     * number of tasks inserted is not equal to the number specified upon
      * creation it must return false.
      */
     @Override
@@ -388,7 +406,7 @@ public class MyProject implements Project {
             return false;
         }
 
-            // Check if all tasks have at least one submission
+        // Check if all tasks have at least one submission
         for (int i = 0; i < this.numberOfTasks; i++) {
             if (this.tasks[i].getNumberOfSubmissions() == 0) {
                 return false;
@@ -398,26 +416,25 @@ public class MyProject implements Project {
     }
 
     /**
-     * This is an implementation of the equals() method in Java that checks if 
-     *  two Project objects are equal based on their name attribute.
+     * This is an implementation of the equals() method in Java that checks if
+     * two Project objects are equal based on their name attribute.
      *
-     * @param o  The parameter "o" is an object of type Object, which is the 
-     * superclass of all other classes in Java. It is used to compare the 
+     * @param o The parameter "o" is an object of type Object, which is the
+     * superclass of all other classes in Java. It is used to compare the
      * equality of two Project objects.
      * @return true if the objects are equal, false otherwise.
      */
     @Override
-    public boolean equals(Object o) {
-        if (this == o) {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (o == null || getClass() != o.getClass()) {
+        if (obj == null || !(obj instanceof MyProject)) {
             return false;
         }
+        MyProject temp = (MyProject) obj;
 
-        MyProject temp = (MyProject) o;
         return this.name.equals(temp.name);
     }
 
-    
 }

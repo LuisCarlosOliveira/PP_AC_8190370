@@ -1,14 +1,20 @@
+/*
+* Nome: Luís Carlos Mendes de Oliveira
+* Número: 8190370
+* Turma: LEI12T2
+*/
+
+
 /**
  * @file MyParticipant.java
  * @author Luis Oliveira <https://github.com/LuisCarlosOliveira>
- * @date 
+ * @date
  * @brief This file contains the implementation of the MyParticipant class.
- * MyParticipant is a concrete implementation of the Participant interface.
- * It represents a Participant with various fields such as name, email,contact.
- * 
+ * MyParticipant is a concrete implementation of the Participant interface. It
+ * represents a Participant with various fields such as name, email,contact.
+ *
  */
 package my.cbl.participants;
-
 
 import ma02_resources.participants.Contact;
 import ma02_resources.participants.Instituition;
@@ -22,7 +28,9 @@ public abstract class MyParticipant implements Participant {
     private Contact contact;
 
     /**
-     * Constructs a MyParticipant object with the specified participant information.
+     * Constructs a MyParticipant object with the specified participant
+     * information.
+     *
      * @param name the name of the Participant
      * @param email the email of the Participant
      * @param instituition the instituition of the Participant
@@ -110,11 +118,12 @@ public abstract class MyParticipant implements Participant {
         if (this == obj) {
             return true;
         }
-        if (obj == null || getClass() != obj.getClass()) {
+        if (obj == null || !(obj instanceof MyParticipant)) {
             return false;
         }
         MyParticipant temp = (MyParticipant) obj;
-        return this.email.equals(temp.email) && this.name.equals(temp.name) ;
+
+        return this.email.equals(temp.email) && this.name.equals(temp.name);
     }
 
     @Override
