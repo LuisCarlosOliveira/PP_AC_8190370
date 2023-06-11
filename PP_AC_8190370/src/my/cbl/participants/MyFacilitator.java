@@ -29,12 +29,10 @@ public class MyFacilitator extends MyParticipant implements Facilitator {
      * @param name the name of the Facilitator
      * @param email the email of the Facilitator
      * @param instituition the instituition of the Facilitator
-     * @param contact the contact of the Facilitator
      * @param areaOfExpertise the area of expertise of the Facilitator
      */
-    public MyFacilitator(String name, String email, Instituition instituition, 
-            Contact contact, String areaOfExpertise) {
-        super(name, email, instituition, contact);
+    public MyFacilitator(String name, String email, Instituition instituition,  String areaOfExpertise) {
+        super(name, email, instituition);
         this.areaOfExpertise = areaOfExpertise;
     }
 

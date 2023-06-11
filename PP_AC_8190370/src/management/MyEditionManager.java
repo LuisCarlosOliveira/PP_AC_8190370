@@ -412,13 +412,14 @@ public class MyEditionManager implements EditionManager {
         if (projects == null) {
             return "No projects found for the edition.";
         }
-
+        
+        int totalProjets = targetEdition.getNumberOfProjects();
         int totalTasks = 0;
         int totalSubmissions = 0;
         int tasksWithSubmissions = 0;
         int projectsWithTasksWithoutSubmissions = 0;
 
-        for (int i = 0; i < projects.length; i++) {
+        for (int i = 0; i < totalProjets; i++) {
             if (projects[i] != null) {
                 boolean hasTaskWithoutSubmission = false;
                 Task[] tasks = projects[i].getTasks();
@@ -453,15 +454,15 @@ public class MyEditionManager implements EditionManager {
         }
 
         double projectsWithoutSubmissionsPercentage = 0;
-        if (projects.length > 0) {
-            projectsWithoutSubmissionsPercentage = ((double) projectsWithTasksWithoutSubmissions / projects.length) * 100;
+        if (totalProjets > 0) {
+            projectsWithoutSubmissionsPercentage = ((double) projectsWithTasksWithoutSubmissions / totalProjets) * 100;
         }
 
         int tasksWithoutSubmissions = totalTasks - tasksWithSubmissions;
 
         String text = "";
         text += "Edition " + editionName + " Progress:\n";
-        text += "Total Projects: " + projects.length + "\n";
+        text += "Total Projects: " + totalProjets + "\n";
         text += "Total Tasks: " + totalTasks + "\n";
         text += "Tasks without Submissions: " + tasksWithoutSubmissions + "\n";
         text += "Total Submissions: " + totalSubmissions + "\n";
@@ -752,7 +753,7 @@ public class MyEditionManager implements EditionManager {
         Project[] projects = targetEdition.getProjects();
 
         String text = "Projects in Edition " + editionName + ":\n";
-        for (int i = 0; i < projects.length; i++) {
+        for (int i = 0; i < targetEdition.getNumberOfProjects(); i++) {
             text += projects[i].getName() + "\n";
         }
 

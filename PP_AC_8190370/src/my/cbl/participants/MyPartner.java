@@ -34,9 +34,9 @@ public class MyPartner extends MyParticipant implements Partner {
      * @param vat the VAT number of the partner
      * @param website the website of the partner
      */
-    public MyPartner(String name, String email, Instituition instituition, Contact contact,
+    public MyPartner(String name, String email, Instituition instituition,
             String vat, String website) {
-        super(name, email, instituition, contact);
+        super(name, email, instituition);
         this.vat = vat;
         this.website = website;
     }

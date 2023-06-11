@@ -2,8 +2,7 @@
 * Nome: Luís Carlos Mendes de Oliveira
 * Número: 8190370
 * Turma: LEI12T2
-*/
-
+ */
 /**
  * @file: MyInstituition.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -44,31 +43,6 @@ public class MyInstituition implements Instituition {
         this.name = name;
         this.email = email;
         this.type = type;
-    }
-
-    /**
-     * Constructs a MyInstituition object with the specified name, email, type,
-     * contact, description and website
-     *
-     * @param name the name of the institution (mandatory)
-     * @param email the email of the institution (mandatory)
-     * @param type the type of the institution (mandatory)
-     * @param contact the contact of the institution
-     * @param description the description of the institution
-     * @param website the website of the institution
-     * @throws IllegalArgumentException if name, email, or type is null or empty
-     */
-    public MyInstituition(String name, String email, InstituitionType type,
-            Contact contact, String description, String website) {
-        if (name == null || name.isEmpty() || email == null || email.isEmpty() || type == null) {
-            throw new IllegalArgumentException("Name, email, and type are mandatory attributes.");
-        }
-        this.name = name;
-        this.email = email;
-        this.type = type;
-        this.contact = contact;
-        this.description = description;
-        this.website = website;
     }
 
     /**

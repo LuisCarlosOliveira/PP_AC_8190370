@@ -34,16 +34,14 @@ public abstract class MyParticipant implements Participant {
      * @param name the name of the Participant
      * @param email the email of the Participant
      * @param instituition the instituition of the Participant
-     * @param contact the contact of the Participant
      */
-    public MyParticipant(String name, String email, Instituition instituition, Contact contact) {
+    public MyParticipant(String name, String email, Instituition instituition) {
         if (name == null || email == null || instituition == null) {
             throw new IllegalArgumentException("Name, email, and institution are mandatory.");
         }
         this.name = name;
         this.email = email;
         this.instituition = instituition;
-        this.contact = contact;
     }
 
     /**

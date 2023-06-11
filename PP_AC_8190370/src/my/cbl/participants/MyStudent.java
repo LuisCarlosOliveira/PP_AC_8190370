@@ -33,9 +33,9 @@ public class MyStudent extends MyParticipant implements Student {
      * @param contact the contact of the Student
      * @param number the number of the Student
      */
-    public MyStudent(String name, String email, Instituition instituition, Contact contact, 
+    public MyStudent(String name, String email, Instituition instituition, 
             int number) {
-        super(name, email, instituition, contact);
+        super(name, email, instituition);
         this.number = number;
     }
 

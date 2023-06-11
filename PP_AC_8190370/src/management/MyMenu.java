@@ -474,7 +474,7 @@ public class MyMenu implements Menu {
     }
 
     /**
-     * Creates an institution object by taking input from the user.
+     * Creates an instituition object by taking input from the user.
      */
     private Instituition createInstituition() {
         Scanner scan = new Scanner(System.in);
@@ -548,10 +548,23 @@ public class MyMenu implements Menu {
         System.out.println("Please enter the details of the Student's Instituition.");
         Instituition instituition = createInstituition();
 
-        System.out.println("Please enter the details of the Student's Contact.");
-        Contact contact = createContact();
+        int addContactAnswer = 0;
 
-        return new MyStudent(name, email, instituition, contact, number);
+        while (addContactAnswer != 1 && addContactAnswer != 2) {
+            System.out.println("Do you want to add a contact to the institution? (1 - YES / 2 - NO)");
+            addContactAnswer = scan.nextInt();
+            scan.nextLine(); // Consumes newline left-over
+
+            if (addContactAnswer == 1) {
+                System.out.println("Please enter the details of the Institution's Contact.");
+                Contact contact = createContact();
+                instituition.setContact(contact);
+            } else if (addContactAnswer != 2) {
+                System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        return new MyStudent(name, email, instituition, number);
     }
 
     /**
@@ -612,19 +625,32 @@ public class MyMenu implements Menu {
         System.out.print("Enter Partner's email: ");
         String email = scan.nextLine();
 
-        System.out.println("Please enter the details of the Partner's Institution.");
-        Instituition institution = createInstituition();
-
-        System.out.println("Please enter the details of the Partner's Contact.");
-        Contact contact = createContact();
-
         System.out.print("Enter Partner's VAT number: ");
         String vat = scan.nextLine();
 
         System.out.print("Enter Partner's website: ");
         String website = scan.nextLine();
+        
+        System.out.println("Please enter the details of the Partner's Institution.");
+        Instituition instituition = createInstituition();
 
-        return new MyPartner(name, email, institution, contact, vat, website);
+        int addContactAnswer = 0;
+
+        while (addContactAnswer != 1 && addContactAnswer != 2) {
+            System.out.println("Do you want to add a contact to the institution? (1 - YES / 2 - NO)");
+            addContactAnswer = scan.nextInt();
+            scan.nextLine(); // Consumes newline left-over
+
+            if (addContactAnswer == 1) {
+                System.out.println("Please enter the details of the Institution's Contact.");
+                Contact contact = createContact();
+                instituition.setContact(contact);
+            } else if (addContactAnswer != 2) {
+                System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        return new MyPartner(name, email, instituition, vat, website);
     }
 
     /**
@@ -641,16 +667,29 @@ public class MyMenu implements Menu {
         System.out.print("Enter Facilitator's email: ");
         String email = scan.nextLine();
 
-        System.out.println("Please enter the details of the Facilitator's Institution.");
-        Instituition institution = createInstituition();
-
-        System.out.println("Please enter the details of the Facilitator's Contact.");
-        Contact contact = createContact();
-
         System.out.print("Enter Facilitator's area of expertise: ");
         String areaOfExpertise = scan.nextLine();
 
-        return new MyFacilitator(name, email, institution, contact, areaOfExpertise);
+        System.out.println("Please enter the details of the Facilitator's Institution.");
+        Instituition institution = createInstituition();
+
+        int addContactAnswer = 0;
+
+        while (addContactAnswer != 1 && addContactAnswer != 2) {
+            System.out.println("Do you want to add a contact to the institution? (1 - YES / 2 - NO)");
+            addContactAnswer = scan.nextInt();
+            scan.nextLine(); // Consumes newline left-over
+
+            if (addContactAnswer == 1) {
+                System.out.println("Please enter the details of the Institution's Contact.");
+                Contact contact = createContact();
+                institution.setContact(contact);
+            } else if (addContactAnswer != 2) {
+                System.out.println("Invalid option, please try again.");
+            }
+        }
+
+        return new MyFacilitator(name, email, institution, areaOfExpertise);
     }
 
     /**
@@ -697,29 +736,46 @@ public class MyMenu implements Menu {
     @Override
     public void userAddParticipantToProject() {
         Scanner scan = new Scanner(System.in);
-
-        System.out.println("Please select the type of participant to add:");
-        System.out.println("1. Student");
-        System.out.println("2. Partner");
-        System.out.println("3. Facilitator");
-        int participantType = scan.nextInt();
-        scan.nextLine(); // Consumes newline left-over
-
         Participant participant = null;
 
-        switch (participantType) {
-            case 1:
-                participant = this.createStudent();
-                break;
-            case 2:
-                participant = this.createPartner();
-                break;
-            case 3:
-                participant = this.createFacilitator();
-                break;
-            default:
-                System.out.println("Invalid option, please try again.");
-                return;
+        while (participant == null) {
+            System.out.println("Please select the type of participant to add:");
+            System.out.println("1. Student");
+            System.out.println("2. Partner");
+            System.out.println("3. Facilitator");
+            int participantType = scan.nextInt();
+            scan.nextLine(); // Consumes newline left-over
+
+            switch (participantType) {
+                case 1:
+                    participant = this.createStudent();
+                    break;
+                case 2:
+                    participant = this.createPartner();
+                    break;
+                case 3:
+                    participant = this.createFacilitator();
+                    break;
+                default:
+                    System.out.println("Invalid option, please try again.");
+                    continue;
+            }
+
+            int addContactAnswer = 0;
+
+            while (addContactAnswer != 1 && addContactAnswer != 2) {
+                System.out.println("Do you want to add a contact to Participant? (1 - YES / 2 - NO)");
+                addContactAnswer = scan.nextInt();
+                scan.nextLine(); // Consumes newline left-over
+
+                if (addContactAnswer == 1) {
+                    System.out.println("Please enter the details of the Participant's Contact.");
+                    Contact contact = createContact();
+                    participant.setContact(contact);
+                } else if (addContactAnswer != 2) {
+                    System.out.println("Invalid option, please try again.");
+                }
+            }
         }
 
         System.out.print("Enter the name of the project to which you want to add the participant: ");
