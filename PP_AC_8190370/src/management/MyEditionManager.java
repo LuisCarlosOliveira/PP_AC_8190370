@@ -79,19 +79,27 @@ public class MyEditionManager implements EditionManager {
     }
 
     /**
-     * Adds an edition to the manager.
+     * Adds an edition to the manager after validating it doesn't already exist
+     * in the system and there's not another active edition in place.
      *
      * @param edition The edition to add.
-     * @throws IllegalArgumentException If the edition is null or if there's
-     * already an active edition.
+     * @throws IllegalArgumentException If the edition is null, or if there's
+     * already an active edition, or if the same edition already exists.
      */
     @Override
     public void addEdition(Edition edition) {
         if (edition == null) {
             throw new IllegalArgumentException("Edition can't be null.");
         }
+
         if (edition.getStatus() == Status.ACTIVE && this.activeEditionIndex != -1) {
             throw new IllegalArgumentException("There is already an active edition. A new edition can't be added with ACTIVE status.");
+        }
+
+        for (int i = 0; i < numberOfEditions; i++) {
+            if (editions[i].equals(edition)) {
+                throw new IllegalArgumentException("This edition already exists.");
+            }
         }
 
         if (this.numberOfEditions == this.editions.length) {

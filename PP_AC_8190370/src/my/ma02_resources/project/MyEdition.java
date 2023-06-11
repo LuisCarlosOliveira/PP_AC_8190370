@@ -2,8 +2,7 @@
 * Nome: Luís Carlos Mendes de Oliveira
 * Número: 8190370
 * Turma: LEI12T2
-*/
-
+ */
 /**
  * @file: MyEdition.java
  * @author: Luis Oliveira <https://github.com/LuisCarlosOliveira>
@@ -195,14 +194,13 @@ public class MyEdition implements Edition {
                     projectModel.getMaximumNumberOfStudents(),
                     projectModel.getMaximumNumberOfPartners(),
                     projectModel.getMaximumNumberOfFacilitators(),
-                    tasks.length*2,
+                    tasks.length * 2,
                     tasks
             );
 
             // Add project to projects array
             addProjectToArray(project);
         } catch (IOException e) {
-            e.printStackTrace();
             throw new IOException("Project template not found.");
         }
     }
