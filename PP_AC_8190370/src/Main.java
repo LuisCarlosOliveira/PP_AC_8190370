@@ -11,7 +11,7 @@ import ma02_resources.project.Edition;
 import management.MyEditionManager;
 import management.MyMenu;
 import my.ma02_resources.project.MyEdition;
-import myInterfaces.Menu;
+import my_interfaces.Menu;
 
 /**
  * @file: 

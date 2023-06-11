@@ -14,8 +14,8 @@
  */
 package my.ma02_resources.project;
 
-import ModelClasses.ProjectModel;
-import ModelClasses.TaskModel;
+import model_classes.ProjectModel;
+import model_classes.TaskModel;
 import com.google.gson.Gson;
 import java.io.FileReader;
 import java.io.IOException;

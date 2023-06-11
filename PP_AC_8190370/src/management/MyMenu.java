@@ -45,8 +45,8 @@ import my.cbl.participants.MyStudent;
 import my.ma02_resources.project.MyEdition;
 import my.ma02_resources.project.MySubmission;
 import my.ma02_resources.project.MyTask;
-import myInterfaces.EditionManager;
-import myInterfaces.Menu;
+import my_interfaces.EditionManager;
+import my_interfaces.Menu;
 
 public class MyMenu implements Menu {
 

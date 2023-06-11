@@ -27,7 +27,7 @@ import ma02_resources.project.exceptions.IllegalNumberOfParticipantType;
 import ma02_resources.project.exceptions.IllegalNumberOfTasks;
 import ma02_resources.project.exceptions.ParticipantAlreadyInProject;
 import ma02_resources.project.exceptions.TaskAlreadyInProject;
-import myInterfaces.EditionManager;
+import my_interfaces.EditionManager;
 
 public class MyEditionManager implements EditionManager {
 
